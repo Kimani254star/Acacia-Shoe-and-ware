@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Tech Store</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif, sans-serif;
+  margin:0;
+  background:#f5f5f5;
+}
+
+body.dark{
+  background:#111;
+  color:#fff;
+}
+
+header{
+  background:#111;
+  color:#fff;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+#container{
+  display:flex;
+  gap:20px;
+  padding:20px;
+}
+
+#filters{
+  width:260px;
+}
+
+#grid{
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:15px;
+}
+
+.card{
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  text-align:center;
+}
+
+body.dark .card{
+  background:#1e1e1e;
+}
+
+.card img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+button{
+  padding:8px;
+  margin-top:8px;
+  cursor:pointer;
+}
+
+.add{
+  background:#b30000;
+  color:#fff;
+  border:none;
+  width:100%;
+}
+
+.instock{color:green;}
+.outstock{color:red;}
+
+#viewModal, #cartModal{
+  display:none;
+  position:fixed;
+  top:15%;
+  left:50%;
+  transform:translateX(-50%);
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  width:300px;
+  z-index:999;
+}
+
+body.dark #viewModal,
+body.dark #cartModal{
+  background:#222;
+}
+.top-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.top-icons a {
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.footer{
+  background:#111;
+  color:white;
+  padding:40px 20px;
+  margin-top:40px;
+}
+
+.footer-container{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+}
+
+.footer-section{
+  flex:1;
+  min-width:180px;
+}
+
+.footer-section h3,
+.footer-section h4{
+  margin-bottom:10px;
+}
+
+.footer-section p{
+  font-size:14px;
+  margin:5px 0;
+}
+
+.footer-bottom{
+  text-align:center;
+  margin-top:20px;
+  border-top:1px solid #444;
+  padding-top:10px;
+  font-size:13px;
+}
+.love{
+  width:100%;
+  padding:8px;
+  margin-top:5px;
+  border:none;
+  cursor:pointer;
+  background:#eee;
+  border-radius:6px;
+}
+
+.love.active{
+  background:#ff4d6d;
+  color:white;
+}
+.top-icons{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+
+.icon-btn{
+  background:none;
+  border:none;
+  font-size:24px;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.heart{
+  color:red;
+}
+
+.whatsapp{
+  color:#25D366;
+}
+
+@media(max-width:800px){
+  #container{flex-direction:column;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>🛒 Smart Tech Store</h2>
+  <div>
+    <button onclick="toggleTheme()">🌙</button>
+    <button onclick="showCart()">🛒 Cart</button>
+  </div>
+</header>
+
+<section id="container">
+
+<div id="filters">
+
+<input type="text" id="search" placeholder="Search..." oninput="applyFilters()" style="width:100%;padding:8px;margin-bottom:15px;">
+
+<h3>Category</h3>
+
+<label><input type="checkbox" value="Clothes" onchange="applyFilters()"> Clothes</label><br>
+<label><input type="checkbox" value="Shoes" onchange="applyFilters()"> Shoes</label><br>
+<label><input type="checkbox" value="Underwear" onchange="applyFilters()"> Underwear</label><br>
+<label><input type="checkbox" value="Socks" onchange="applyFilters()"> Socks</label><br>
+<label><input type="checkbox" value="Jackets" onchange="applyFilters()"> Jackets</label><br>
+<label><input type="checkbox" value="T-Shirts" onchange="applyFilters()"> T-Shirts</label><br>
+<label><input type="checkbox" value="Jeans" onchange="applyFilters()"> Jeans</label><br>
+<label><input type="checkbox" value="Shorts" onchange="applyFilters()"> Shorts</label><br>
+<label><input type="checkbox" value="Dresses" onchange="applyFilters()"> Dresses</label><br>
+<label><input type="checkbox" value="Hoodies" onchange="applyFilters()"> Hoodies</label><br>
+<label><input type="checkbox" value="Sportswear" onchange="applyFilters()"> Sportswear</label><br>
+<label><input type="checkbox" value="Accessories" onchange="applyFilters()"> Accessories</label><br>
+<label><input type="checkbox" value="Baby Clothes" onchange="applyFilters()"> Baby Clothes</label><br>
+
+<h3>Type</h3>
+<label><input type="checkbox" value="Men" data-type="type" onchange="applyFilters()"> Men</label><br>
+<label><input type="checkbox" value="Women" data-type="type" onchange="applyFilters()"> Women</label><br>
+<label><input type="checkbox" value="Kids" data-type="type" onchange="applyFilters()"> Kids</label><br>
+
+<h3>Size</h3>
+<label><input type="checkbox" value="S" data-type="size" onchange="applyFilters()"> S</label><br>
+<label><input type="checkbox" value="M" data-type="size" onchange="applyFilters()"> M</label><br>
+<label><input type="checkbox" value="L" data-type="size" onchange="applyFilters()"> L</label><br>
+<label><input type="checkbox" value="XL" data-type="size" onchange="applyFilters()"> XL</label><br>
+<label><input type="checkbox" value="XXL" data-type="size" onchange="applyFilters()"> XXL</label><br>
+
+<h3>Price</h3>
+
+<label><input type="checkbox" value="under500" data-type="price" onchange="applyFilters()"> Under 500</label><br>
+<label><input type="checkbox" value="500-1000" data-type="price" onchange="applyFilters()"> 500 – 1000</label><br>
+<label><input type="checkbox" value="1000-3000" data-type="price" onchange="applyFilters()"> 1000 – 3000</label><br>
+<label><input type="checkbox" value="3000-5000" data-type="price" onchange="applyFilters()"> 3000 – 5000</label><br>
+<label><input type="checkbox" value="5000-10000" data-type="price" onchange="applyFilters()"> 5000 – 10000</label><br>
+<label><input type="checkbox" value="10000plus" data-type="price" onchange="applyFilters()"> Above 10000</label><br>
+<button onclick="clearFilters()">Clear Filters</button>
+</div>
+
+<div id="grid"></div>
+
+</section>
+<div id="viewModal" style="display:none; position:fixed; top:10; left:10; width:100%; height:100%;
+background:rgba(0,0,0,0.6);">
+
+  <div style="background:#fff; width:320px; margin:80px auto; padding:15px; border-radius:10px; text-align:center;">
+
+    <img id="viewImg" style="width:100%; height:200px; object-fit:cover; border-radius:10px;">
+
+    <h3 id="viewName"></h3>
+    <p id="viewPrice"></p>
+    <p id="viewCategory"></p>
+    <p id="viewABV"></p>
+    <p id="viewCountry"></p>
+    <p id="viewBrand"></p>
+    <p id="viewStock"></p>
+    <p id="viewDesc" style="font-size:13px; text-align:left;"></p>
+
+    <button onclick="closeView()">Close</button>
+
+  </div>
+</div>
+
+<div id="cartModal">
+<h3>Your Order</h3>
+<ul id="cartList"></ul>
+<p><b>Total: KES <span id="total">0</span></b></p>
+<button onclick="checkout()">WhatsApp Order</button>
+<button onclick="closeCart()">Close</button>
+</div>
+
+<footer class="footer">
+
+<div class="footer-container">
+
+  <div class="footer-section">
+    <h3>🛒 Smart Tech Store</h3>
+    <p>Your trusted shop for phones, laptops, and accessories.</p>
+  </div>
+
+ <div class="footer-section">
+  <h4>📞 Contact Us</h4>
+  <p>📱 Phone: +254 731 858 997</p>
+
+  <p>
+    💬 <a href="https://wa.me/254731858997" target="_blank" style="color:#25D366;">WhatsApp</a>
+  </p>
+
+  <p>📧 Email: support@smarttech.com</p>
+  <p>📍 Nairobi, Kenya</p>
+
+  <div style="margin-top:10px; font-size:22px; display:flex; gap:12px;">
+    
+    <a href="https://wa.me/254731858997" target="_blank" style="color:#25D366;">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <a href="https://facebook.com" target="_blank" style="color:#1877F2;">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <a href="https://instagram.com" target="_blank" style="color:#E4405F;">
+    <i class="fab fa-instagram"></i>
+  </a>
+
+
+</div>
+
+</div>
+
+  <div class="footer-section">
+    <h4>💳 Payment</h4>
+    <p>M-PESA Till: 123456</p>
+    <p>Visa / MasterCard</p>
+    <p>Cash on Delivery</p>
+  </div>
+
+  <div class="footer-section">
+    <h4>📜 Terms</h4>
+    <p>No refunds after 7 days</p>
+    <p>Warranty where stated</p>
+    <p>Prices may change</p>
+  </div>
+
+</div>
+
+<div class="footer-bottom">
+  <p>© 2026Acacia Liquor Store</p>
+</div>
+
+</footer>
+
+<script>
+
+const products=[
+{name:"Basic T-Shirt Black", image:"images/nike.jpg", category:"T-Shirts", type:"Men", price:1200, stock:20, size:"M"},
+{name:"Oversized T-Shirt White", image:"images/nike.jpg", category:"T-Shirts", type:"Women", price:1500, stock:18, size:"L"},
+{name:"Kids Cotton T-Shirt", image:"images/nike.jpg", category:"T-Shirts", type:"Kids", price:900, stock:25, size:"S"},
+
+{name:"Blue Denim Jeans", image:"images/nike.jpg", category:"Jeans", type:"Men", price:3000, stock:12, size:"L"},
+{name:"Women Skinny Jeans", image:"images/nike.jpg", category:"Jeans", type:"Women", price:3500, stock:10, size:"M"},
+
+{name:"Nike Air Force 1", image:"images/nike.jpg", category:"Shoes", type:"Men", price:7500, stock:10, size:"L"},
+{name:"Adidas Sneakers", image:"images/adidas.jpg", category:"Shoes", type:"Women", price:6500, stock:8, size:"M"},
+{name:"Kids Sport Shoes", image:"images/kids_shoes.jpg", category:"Shoes", type:"Kids", price:3500, stock:15, size:"S"},
+
+{name:"Nike Hoodie", image:"images/hoodie_men.jpg", category:"Hoodies", type:"Men", price:4000, stock:10, size:"L"},
+{name:"Pink Hoodie Women", image:"images/hoodie_women.jpg", category:"Hoodies", type:"Women", price:3800, stock:9, size:"M"},
+
+{name:"Denim Jacket", image:"images/jacket_denim.jpg", category:"Jackets", type:"Men", price:4200, stock:7, size:"L"},
+{name:"Winter Jacket", image:"images/jacket_winter.jpg", category:"Jackets", type:"Women", price:6000, stock:6, size:"M"},
+
+{name:"Tracksuit Set", image:"images/tracksuit_men.jpg", category:"Sportswear", type:"Men", price:5000, stock:8, size:"L"},
+{name:"Gym Set Women", image:"images/gym_women.jpg", category:"Sportswear", type:"Women", price:4500, stock:10, size:"M"},
+
+{name:"Floral Dress", image:"images/dress_floral.jpg", category:"Dresses", type:"Women", price:2500, stock:10, size:"M"},
+{name:"Kids Party Dress", image:"images/dress_kids.jpg", category:"Dresses", type:"Kids", price:2000, stock:8, size:"S"},
+
+{name:"Men Boxer Pack", image:"images/boxers.jpg", category:"Underwear", type:"Men", price:1200, stock:20, size:"M"},
+{name:"Women Bra Set", image:"images/bra_set.jpg", category:"Underwear", type:"Women", price:1500, stock:18, size:"M"},
+
+{name:"Ankle Socks Pack", image:"images/socks_men.jpg", category:"Socks", type:"Men", price:600, stock:40, size:"M"},
+{name:"Kids Socks Set", image:"images/socks_kids.jpg", category:"Socks", type:"Kids", price:500, stock:50, size:"S"},
+
+{name:"Leather Belt", image:"images/belt.jpg", category:"Accessories", type:"Men", price:1200, stock:20, size:"M"},
+{name:"Women Handbag", image:"images/handbag.jpg", category:"Accessories", type:"Women", price:2500, stock:15, size:"M"}
+];
+
+
+
+let cart = {};
+
+function display(list = products){
+const grid = document.getElementById("grid");
+grid.innerHTML = "";
+
+list.forEach(p=>{
+grid.innerHTML += `
+<div class="card">
+
+<img src="${p.image}" alt="${p.name}"
+onclick="viewProduct('${p.name}')"
+style="width:100%; height:180px; object-fit:cover; border-radius:10px; cursor:pointer;">
+
+<h3>${p.name}</h3>
+<p>KES ${p.price}</p>
+<p>${p.category} | ${p.size}</p>
+
+<p class="${p.stock > 0 ? 'instock' : 'outstock'}">
+${p.stock > 0 ? 'Available' : 'Out of stock'}
+</p>
+
+<div class="top-icons">
+
+  <button onclick="add('${p.name}')" class="icon-btn">🛒</button>
+
+  <button onclick="toggleLove('${p.name}')" class="icon-btn heart">
+    ${likes[p.name] ? "❤️" : "🤍"}
+  </button>
+
+ <a href="https://wa.me/254731858997" target="_blank" style="color:#25D366;">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <a href="https://instagram.com" target="_blank" style="color:#E4405F;">
+    <i class="fab fa-instagram"></i>
+  </a>
+
+</div>
+
+</div>
+`;
+});
+}
+let likes = {};
+
+function toggleLove(name){
+  if(likes[name]){
+    delete likes[name];
+  } else {
+    likes[name] = true;
+  }
+  display(products);
+}
+
+function viewProduct(name){
+  const p = products.find(x => x.name === name);
+  if(!p) return;
+
+  document.getElementById("viewImg").src = p.image;
+  document.getElementById("viewName").textContent = p.name;
+  document.getElementById("viewPrice").textContent = "KES " + p.price;
+  document.getElementById("viewCategory").textContent = p.category + " | " + (p.size || "");
+
+  document.getElementById("viewABV").textContent = "ABV: " + (p.abv || "N/A");
+  document.getElementById("viewCountry").textContent = "Country: " + (p.country || "N/A");
+  document.getElementById("viewBrand").textContent = "Brand: " + (p.brand || "N/A");
+  document.getElementById("viewStock").textContent = "Availability: " + (p.stock || "In Stock");
+  document.getElementById("viewDesc").textContent = p.description || "";
+
+  document.getElementById("viewModal").style.display = "block";
+}
+
+function closeView(){
+document.getElementById("viewModal").style.display = "none";
+}
+function applyFilters(){
+  const search = document.getElementById("search").value.toLowerCase();
+
+  const checked = [...document.querySelectorAll("input[type=checkbox]:checked")];
+
+  const category = checked
+    .filter(c => !c.dataset.type)
+    .map(c => c.value);
+
+  const size = checked
+    .filter(c => c.dataset.type === "size")
+    .map(c => c.value);
+
+  const price = checked
+    .filter(c => c.dataset.type === "price")
+    .map(c => c.value);
+
+  const filtered = products.filter(p => {
+
+    const matchSearch = p.name.toLowerCase().includes(search);
+
+    const matchCategory = !category.length || category.includes(p.category);
+
+    const matchSize = !size.length || size.includes(p.size);
+
+    const matchPrice = !price.length || price.some(r => {
+
+      if (r === "under500") return p.price < 500;
+      if (r === "500-1000") return p.price >= 500 && p.price <= 1000;
+      if (r === "1000-3000") return p.price >= 1000 && p.price <= 3000;
+      if (r === "3000-5000") return p.price >= 3000 && p.price <= 5000;
+      if (r === "5000-10000") return p.price >= 5000 && p.price <= 10000;
+      if (r === "10000plus") return p.price > 10000;
+
+      return true;
+    });
+
+    return (
+      matchSearch &&
+      matchCategory &&
+      matchSize &&
+      matchPrice
+    );
+  });
+
+  display(filtered);
+}
+
+function clearFilters(){
+document.querySelectorAll("input[type=checkbox]").forEach(c=>c.checked=false);
+document.getElementById("search").value = "";
+display(products);
+}
+
+function add(name){
+const p = products.find(x => x.name === name);
+if(!p) return;
+
+if(p.stock <= 0){
+alert("Out of stock");
+return;
+}
+
+if(!cart[name]){
+cart[name] = {qty:1, price:p.price};
+}else{
+cart[name].qty++;
+}
+
+p.stock--;
+display(products);
+}
+
+function showCart(){
+const list = document.getElementById("cartList");
+list.innerHTML = "";
+let total = 0;
+
+for(const [name,item] of Object.entries(cart)){
+const sub = item.qty * item.price;
+total += sub;
+list.innerHTML += `<li>${name} x${item.qty} = KES ${sub}</li>`;
+}
+
+document.getElementById("total").textContent = total;
+document.getElementById("cartModal").style.display = "block";
+}
+
+function closeCart(){
+document.getElementById("cartModal").style.display = "none";
+}
+
+function checkout(){
+let msg = "🛒 Liquor Order:%0A%0A";
+let total = 0;
+
+for(const [name,item] of Object.entries(cart)){
+const sub = item.qty * item.price;
+msg += `${name} x${item.qty} = KES ${sub}%0A`;
+total += sub;
+}
+
+msg += `%0A💰 Total: KES ${total}`;
+
+window.open(`https://wa.me/254731858997?text=${msg}`, "_blank");
+}
+
+function toggleTheme(){
+document.body.classList.toggle("dark");
+}
+
+display(products);
+</script>
+
+</body>
+</html>
