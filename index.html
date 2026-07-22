@@ -3,599 +3,1474 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Tech Store</title>
+<title>Haven Fashion & Apparel Store</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
 <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Cambria', sans-serif;
+}
+
 body{
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif, sans-serif;
-  margin:0;
-  background:#f5f5f5;
+    background:#f8f6f6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-body.dark{
-  background:#111;
-  color:#fff;
+.topbar{
+    background:#1f1924;
+    color:#fff;
+    padding:15px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-header{
-  background:#111;
-  color:#fff;
-  padding:15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.logo{
+    font-size:24px;
+    font-weight:bold;
+    cursor: pointer;
+    user-select: none;
+    color: #e11d48;
 }
 
-#container{
-  display:flex;
-  gap:20px;
-  padding:20px;
+.logo span {
+    color: #fff;
 }
 
-#filters{
-  width:260px;
+.nav{
+    display:flex;
+    gap:20px;
+    align-items: center;
 }
 
-#grid{
-  flex:1;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:15px;
+.nav a{
+    color:#fff;
+    text-decoration:none;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    transition:0.3s;
+    padding: 6px 12px;
+    border-radius: 4px;
 }
 
-.card{
-  background:#fff;
-  padding:15px;
-  border-radius:10px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  text-align:center;
+.nav a:hover, .nav a.active-nav{
+    color:#fff;
+    background: #e11d48;
 }
 
-body.dark .card{
-  background:#1e1e1e;
+.cart-icon-btn {
+    background: #e11d48;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.card img{
-  width:100%;
-  height:150px;
-  object-fit:cover;
-  border-radius:8px;
+.container{
+    display:flex;
+    gap:25px;
+    padding:30px;
+    flex: 1;
 }
 
-button{
-  padding:8px;
-  margin-top:8px;
-  cursor:pointer;
+.sidebar{
+    width:280px;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    height:fit-content;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
 }
 
-.add{
-  background:#b30000;
-  color:#fff;
-  border:none;
-  width:100%;
+.sidebar h3{
+    margin-bottom:15px;
+    color: #1f1924;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 8px;
 }
 
-.instock{color:green;}
-.outstock{color:red;}
-
-#viewModal, #cartModal{
-  display:none;
-  position:fixed;
-  top:15%;
-  left:50%;
-  transform:translateX(-50%);
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-  width:300px;
-  z-index:999;
+.filter-group{
+    margin-bottom:15px;
 }
 
-body.dark #viewModal,
-body.dark #cartModal{
-  background:#222;
-}
-.top-icons {
-  display: flex;
-  align-items: center;
-  gap: 10px; 
+.filter-group label{
+    display:block;
+    margin-bottom:6px;
+    font-size:13px;
+    font-weight: bold;
+    color: #444;
 }
 
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
+.filter-group input,
+.filter-group select{
+    width:100%;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size: 13px;
 }
 
-.top-icons a {
-  font-size: 18px;
-  text-decoration: none;
+.price-inputs {
+    display: flex;
+    gap: 8px;
 }
 
-.footer{
-  background:#111;
-  color:white;
-  padding:40px 20px;
-  margin-top:40px;
+.apply-btn, .clear-btn{
+    width:100%;
+    background:#1f1924;
+    color:#fff;
+    border:none;
+    padding:12px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+    margin-bottom: 8px;
+    transition: 0.3s;
 }
 
-.footer-container{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:20px;
+.clear-btn { background: #666; }
+.apply-btn:hover{ background:#e11d48; }
+.clear-btn:hover{ background:#444; }
+
+.content{ flex:1; }
+
+.search-bar{
+    background:#fff;
+    padding:18px;
+    border-radius:10px;
+    display:flex;
+    gap:15px;
+    margin-bottom:25px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
 }
 
-.footer-section{
-  flex:1;
-  min-width:180px;
+.search-bar input{
+    flex:1;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:6px;
 }
 
-.footer-section h3,
-.footer-section h4{
-  margin-bottom:10px;
+.search-btn{
+    background:#e11d48;
+    color:#fff;
+    border:none;
+    padding:12px 25px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.footer-section p{
-  font-size:14px;
-  margin:5px 0;
+.item-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    gap:20px;
 }
 
-.footer-bottom{
-  text-align:center;
-  margin-top:20px;
-  border-top:1px solid #444;
-  padding-top:10px;
-  font-size:13px;
-}
-.love{
-  width:100%;
-  padding:8px;
-  margin-top:5px;
-  border:none;
-  cursor:pointer;
-  background:#eee;
-  border-radius:6px;
+.item-card{
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 2px 12px rgba(0,0,0,0.08);
+    transition:0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
-.love.active{
-  background:#ff4d6d;
-  color:white;
-}
-.top-icons{
-  display:flex;
-  gap:20px;
-  align-items:center;
+.item-card:hover{ transform:translateY(-5px); }
+
+.item-image{
+    width:100%;
+    height:250px;
+    object-fit:cover;
 }
 
-.icon-btn{
-  background:none;
-  border:none;
-  font-size:24px;
-  cursor:pointer;
-  text-decoration:none;
+.card-body{
+    padding:18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
-.heart{
-  color:red;
+.item-title{
+    font-size:17px;
+    font-weight:bold;
+    margin-bottom:6px;
+    color: #111;
 }
 
-.whatsapp{
-  color:#25D366;
+.stars {
+    color: #f39c12;
+    font-size: 13px;
+    margin-bottom: 8px;
 }
 
-@media(max-width:800px){
-  #container{flex-direction:column;}
+.item-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    font-size:12px;
+    color:#666;
+    margin-bottom:15px;
+    background: #fdfdfd;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #f0f0f0;
+}
+
+.card-buttons{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:6px;
+    margin-top: auto;
+}
+
+.inquiry-btn, .view-btn, .add-cart-btn{
+    border:none;
+    padding:9px 5px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size: 12px;
+    text-align: center;
+}
+
+.add-cart-btn { background: #27ae60; color: #fff; }
+.inquiry-btn{ background:#1f1924; color:#fff; }
+.view-btn{ background:#e11d48; color:#fff; }
+
+.inquiry-btn:hover, .view-btn:hover, .add-cart-btn:hover{ opacity:0.9; }
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+    padding:20px;
+}
+
+.modal-content{
+    background:#fff;
+    width:100%;
+    max-width:850px;
+    border-radius:10px;
+    overflow:hidden;
+    position:relative;
+    max-height:95vh;
+    overflow-y:auto;
+}
+
+.close-modal{
+    position:absolute;
+    top:15px;
+    right:15px;
+    width:35px;
+    height:35px;
+    border:none;
+    border-radius:50%;
+    background:#1f1924;
+    color:#fff;
+    cursor:pointer;
+    z-index:10;
+}
+
+.modal-gallery{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    padding:20px;
+}
+
+.main-image img{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.related-section {
+    padding: 20px;
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.related-card {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+    cursor: pointer;
+}
+
+.related-card img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.payment-method-card {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.payment-method-card.active {
+    border-color: #e11d48;
+    background: #fff1f2;
+}
+
+.admin-sidebar-menu {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.admin-sidebar-menu li {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.2s;
+}
+
+.admin-sidebar-menu li:hover, .admin-sidebar-menu li.active-admin-tab {
+    background: #e11d48;
+    color: #fff;
+}
+
+.admin-panel-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    min-height: 400px;
+}
+
+.admin-panel-card h2 {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #efefef;
+    padding-bottom: 10px;
+    color: #111;
+}
+
+.admin-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.admin-data-table th, .admin-data-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-data-table th {
+    background: #f9f9f9;
+    font-weight: bold;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-success { background: #e6f4ea; color: #137333; }
+.status-pending { background: #ffeec2; color: #b06000; }
+
+.action-btn {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 4px;
+}
+.btn-edit { background: #2980b9; color: #fff; }
+.btn-delete { background: #c0392b; color: #fff; }
+
+.page-section {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.floating-social-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1000;
+}
+
+.floating-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 22px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+}
+
+.floating-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+}
+
+.btn-whatsapp {
+    background-color: #25d366;
+}
+
+.btn-instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+
+.btn-facebook {
+    background-color: #1877f2;
+}
+
+.btn-x {
+    background-color: #000000;
+}
+
+footer {
+    background: #1f1924;
+    color: #fff;
+    margin-top: auto;
+    padding: 40px 40px 20px 40px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section h4 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    color: #e11d48;
+}
+
+.footer-section p, .footer-section ul li a {
+    font-size: 14px;
+    color: #bbb;
+    text-decoration: none;
+    line-height: 1.6;
+}
+
+.footer-section ul { list-style: none; }
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+    font-size: 13px;
+    color: #888;
+}
+
+@media(max-width:900px){
+    .container{ flex-direction:column; }
+    .sidebar{ width:100%; }
+    .search-bar{ flex-direction:column; }
+    .modal-gallery{ grid-template-columns:1fr; }
 }
 </style>
 </head>
-
 <body>
 
-<header style="display:flex; align-items:center; justify-content:space-between;">
-
-  <div style="display:flex; align-items:center; gap:10px;">
-  <img src="acacia-logo.png" alt="Acacia Pharmacy Logo" style="width:45px; height:45px;">
-  <h2 style="margin:0; color:#1b8f3c; font-weight:bold;">
-    Acacia Shoe and Wares 
-  </h2>
+<div class="topbar">
+    <div class="logo" id="mainLogo" title="Click to open Admin Login">HAVEN <span>FASHION & APPAREL</span></div>
+    <div class="nav" id="mainNavbar">
+        <a href="#" class="active-nav" onclick="showPage('storefront', this)"><i class="fa fa-store"></i> Storefront</a>
+        <a href="#" onclick="showPage('women', this)"><i class="fa fa-person-dress"></i> Women's Wear</a>
+        <a href="#" onclick="showPage('men', this)"><i class="fa fa-user-tie"></i> Men's Wear</a>
+        <a href="#" onclick="showPage('innerwear', this)"><i class="fa fa-socks"></i> Innerwear</a>
+        <a href="#" onclick="showPage('shoes', this)"><i class="fa fa-shoe-prints"></i> Shoes & Footwear</a>
+        <a href="#" onclick="showPage('delivery', this)"><i class="fa fa-truck"></i> Delivery</a>
+        <a href="#" onclick="showPage('contact', this)"><i class="fa fa-envelope"></i> Contact</a>
+        <button class="cart-icon-btn" onclick="openCartModal()">
+            <i class="fa fa-shopping-bag"></i> Cart (<span id="cartCount">0</span>)
+        </button>
+    </div>
 </div>
 
-  <div id="motto" style="font-size:14px; color:#ccc;"></div>
+<div class="container" id="publicContainer">
+   
+    <div class="sidebar" id="mainFilterSidebar">
+        <h3><i class="fa fa-filter"></i> Fashion Filters</h3>
 
-  
-  <div>
-    <button onclick="toggleTheme()">🌙</button>
-    <button onclick="showCart()">🛒 Cart</button>
-  </div>
+        <div class="filter-group">
+            <label>Search Keyword</label>
+            <input type="text" id="filterKeyword" placeholder="e.g. Silk Dress, Boots, Boxers">
+        </div>
 
-</header>
+        <div class="filter-group">
+            <label>Category</label>
+            <select id="filterCategory">
+                <option value="All">All Categories</option>
+                <option value="Women's Wear">Women's Wear</option>
+                <option value="Men's Wear">Men's Wear</option>
+                <option value="Innerwear">Innerwear & Lingerie</option>
+                <option value="Shoes">Shoes & Footwear</option>
+            </select>
+        </div>
 
-<section id="container">
+        <div class="filter-group">
+            <label>Price Range (KSh)</label>
+            <div class="price-inputs">
+                <input type="number" id="filterMinPrice" placeholder="Min">
+                <input type="number" id="filterMaxPrice" placeholder="Max">
+            </div>
+        </div>
 
-<div id="filters">
+        <div class="filter-group">
+            <label>Brand</label>
+            <select id="filterBrand">
+                <option value="All">All Brands</option>
+                <option value="Zara">Zara</option>
+                <option value="Nike">Nike</option>
+                <option value="Calvin Klein">Calvin Klein</option>
+                <option value="Victoria's Secret">Victoria's Secret</option>
+                <option value="Hugo Boss">Hugo Boss</option>
+                <option value="Adidas">Adidas</option>
+            </select>
+        </div>
 
-<input type="text" id="search" placeholder="Search..." oninput="applyFilters()" style="width:100%;padding:8px;margin-bottom:15px;">
+        <div class="filter-group">
+            <label>Size</label>
+            <select id="filterSize">
+                <option value="All">All Sizes</option>
+                <option value="S">S (Small)</option>
+                <option value="M">M (Medium)</option>
+                <option value="L">L (Large)</option>
+                <option value="XL">XL (Extra Large)</option>
+                <option value="40">EU 40 (Shoe)</option>
+                <option value="42">EU 42 (Shoe)</option>
+            </select>
+        </div>
 
-<h3>Category</h3>
+        <div class="filter-group">
+            <label>Gender / Department</label>
+            <select id="filterGender">
+                <option value="All">All Departments</option>
+                <option value="Women">Women</option>
+                <option value="Men">Men</option>
+                <option value="Unisex">Unisex</option>
+            </select>
+        </div>
 
-<label><input type="checkbox" value="Clothes" onchange="applyFilters()"> Clothes</label><br>
-<label><input type="checkbox" value="Shoes" onchange="applyFilters()"> Shoes</label><br>
-<label><input type="checkbox" value="Underwear" onchange="applyFilters()"> Underwear</label><br>
-<label><input type="checkbox" value="Socks" onchange="applyFilters()"> Socks</label><br>
-<label><input type="checkbox" value="Jackets" onchange="applyFilters()"> Jackets</label><br>
-<label><input type="checkbox" value="T-Shirts" onchange="applyFilters()"> T-Shirts</label><br>
-<label><input type="checkbox" value="Jeans" onchange="applyFilters()"> Jeans</label><br>
-<label><input type="checkbox" value="Shorts" onchange="applyFilters()"> Shorts</label><br>
-<label><input type="checkbox" value="Dresses" onchange="applyFilters()"> Dresses</label><br>
-<label><input type="checkbox" value="Hoodies" onchange="applyFilters()"> Hoodies</label><br>
-<label><input type="checkbox" value="Sportswear" onchange="applyFilters()"> Sportswear</label><br>
-<label><input type="checkbox" value="Accessories" onchange="applyFilters()"> Accessories</label><br>
-<label><input type="checkbox" value="Baby Clothes" onchange="applyFilters()"> Baby Clothes</label><br>
+        <div class="filter-group">
+            <label><input type="checkbox" id="filterInStockOnly"> In Stock Only</label>
+        </div>
 
-<h3>Type</h3>
-<label><input type="checkbox" value="Men" data-type="type" onchange="applyFilters()"> Men</label><br>
-<label><input type="checkbox" value="Women" data-type="type" onchange="applyFilters()"> Women</label><br>
-<label><input type="checkbox" value="Kids" data-type="type" onchange="applyFilters()"> Kids</label><br>
+        <button class="apply-btn" onclick="applyFilters()">Apply Filters</button>
+        <button class="clear-btn" onclick="resetFilters()">Reset Filters</button>
+    </div>
 
-<h3>Size</h3>
-<label><input type="checkbox" value="S" data-type="size" onchange="applyFilters()"> S</label><br>
-<label><input type="checkbox" value="M" data-type="size" onchange="applyFilters()"> M</label><br>
-<label><input type="checkbox" value="L" data-type="size" onchange="applyFilters()"> L</label><br>
-<label><input type="checkbox" value="XL" data-type="size" onchange="applyFilters()"> XL</label><br>
-<label><input type="checkbox" value="XXL" data-type="size" onchange="applyFilters()"> XXL</label><br>
+    <div class="content">
+        <div class="search-bar" id="topSearchSection">
+            <input type="text" id="topSearchBar" placeholder="Search dresses, suits, innerwear, sneakers or heels...">
+            <button class="search-btn" onclick="topSearch()">Search</button>
+        </div>
 
-<h3>Price</h3>
+        <div id="catalogSection">
+            <h2 id="pageSectionTitle" style="margin-bottom:15px; color:#1f1924;">Trending Fashion & Collections</h2>
+            <div class="item-grid" id="itemGrid"></div>
+        </div>
 
-<label><input type="checkbox" value="under500" data-type="price" onchange="applyFilters()"> Under 500</label><br>
-<label><input type="checkbox" value="500-1000" data-type="price" onchange="applyFilters()"> 500 – 1000</label><br>
-<label><input type="checkbox" value="1000-3000" data-type="price" onchange="applyFilters()"> 1000 – 3000</label><br>
-<label><input type="checkbox" value="3000-5000" data-type="price" onchange="applyFilters()"> 3000 – 5000</label><br>
-<label><input type="checkbox" value="5000-10000" data-type="price" onchange="applyFilters()"> 5000 – 10000</label><br>
-<label><input type="checkbox" value="10000plus" data-type="price" onchange="applyFilters()"> Above 10000</label><br>
-<button onclick="clearFilters()">Clear Filters</button>
+        <div id="deliverySection" class="page-section" style="display:none;">
+            <h2><i class="fa fa-truck"></i> Fast Fashion Delivery</h2>
+            <p style="margin: 10px 0 20px 0; color:#555;">Discreet packaging for innerwear and express delivery for all apparel and footwear orders.</p>
+            
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px; margin-bottom: 25px;">
+                <div style="background:#fff1f2; padding:20px; border-radius:8px; border:1px solid #fecdd3;">
+                    <h3 style="color:#e11d48;"><i class="fa fa-bolt"></i> Same-Day Door Delivery</h3>
+                    <p style="font-size:14px; margin-top:5px; color:#444;">Delivered within 3 hours within Nairobi & surrounding urban centers.</p>
+                </div>
+                <div style="background:#f4f4f4; padding:20px; border-radius:8px;">
+                    <h3 style="color:#1f1924;"><i class="fa fa-shield-cat"></i> Discreet Innerwear Packaging</h3>
+                    <p style="font-size:14px; margin-top:5px; color:#444;">All innerwear & lingerie orders are delivered in plain, sealed, opaque packaging.</p>
+                </div>
+            </div>
+
+            <form onsubmit="event.preventDefault(); alert('Delivery fee estimated! Agent will contact you.');" style="display:grid; gap:12px; max-width:500px;">
+                <h3>Calculate Estimated Shipping</h3>
+                <select style="padding:10px; border-radius:6px; border:1px solid #ddd;" required>
+                    <option value="">Select Region</option>
+                    <option>Nairobi Zone A (CBD, Westlands, Kilimani) - KSh 250</option>
+                    <option>Nairobi Zone B (Runda, Syokimau, Ruaka) - KSh 400</option>
+                    <option>Upcountry Towns (Mombasa, Eldoret, Nakuru) - KSh 600</option>
+                </select>
+                <input type="text" placeholder="Building / Street / Apartment Address" required style="padding:10px; border-radius:6px; border:1px solid #ddd;">
+                <button type="submit" class="apply-btn">Check Express Rates</button>
+            </form>
+        </div>
+
+        <div id="contactSection" class="page-section" style="display:none;">
+            <h2><i class="fa fa-envelope"></i> Contact Sales & Style Consultants</h2>
+            <p style="margin-bottom:20px; color:#666;">Need fitting guidance, size conversions, or custom fashion orders? Send us a message!</p>
+            
+            <form onsubmit="event.preventDefault(); alert('Inquiry sent! Our fashion advisor will contact you shortly.');" style="display:grid; gap:15px; max-width:600px;">
+                <input type="text" placeholder="Your Name" required style="padding:12px; border:1px solid #ddd; border-radius:6px;">
+                <input type="email" placeholder="Your Email Address" required style="padding:12px; border:1px solid #ddd; border-radius:6px;">
+                <input type="tel" placeholder="Phone Number" style="padding:12px; border:1px solid #ddd; border-radius:6px;">
+                <textarea rows="5" placeholder="Specify items, sizing questions, or special requests..." required style="padding:12px; border:1px solid #ddd; border-radius:6px;"></textarea>
+                <button type="submit" class="apply-btn">Send Inquiry</button>
+            </form>
+        </div>
+    </div>
 </div>
 
-<div id="grid"></div>
-
-</section>
-<div id="viewModal" style="display:none; position:fixed; top:10; left:10; width:100%; height:100%;
-background:rgba(0,0,0,0.6);">
-
-  <div style="background:#fff; width:320px; margin:80px auto; padding:15px; border-radius:10px; text-align:center;">
-
-    <img id="viewImg" style="width:100%; height:200px; object-fit:cover; border-radius:10px;">
-
-    <h3 id="viewName"></h3>
-    <p id="viewPrice"></p>
-    <p id="viewCategory"></p>
-    <p id="viewABV"></p>
-    <p id="viewCountry"></p>
-    <p id="viewBrand"></p>
-    <p id="viewStock"></p>
-    <p id="viewDesc" style="font-size:13px; text-align:left;"></p>
-
-    <button onclick="closeView()">Close</button>
-
-  </div>
-</div>
-
-<div id="cartModal">
-<h3>Your Order</h3>
-<ul id="cartList"></ul>
-<p><b>Total: KES <span id="total">0</span></b></p>
-<button onclick="checkout()">WhatsApp Order</button>
-<button onclick="closeCart()">Close</button>
-</div>
-
-<footer class="footer">
-
-<div class="footer-container">
-
-  <div class="footer-section">
-    <h3>🛒 Smart Tech Store</h3>
-    <p>Your trusted shop for phones, laptops, and accessories.</p>
-  </div>
-
- <div class="footer-section">
-  <h4>📞 Contact Us</h4>
-  <p>📱 Phone: +254 731 858 997</p>
-
-  <p>
-    💬 <a href="https://wa.me/254731858997" target="_blank" style="color:#25D366;">WhatsApp</a>
-  </p>
-
-  <p>📧 Email: support@smarttech.com</p>
-  <p>📍 Nairobi, Kenya</p>
-
-  <div style="margin-top:10px; font-size:22px; display:flex; gap:12px;">
+<div class="container" id="adminContainer" style="display: none;">
+    <div class="sidebar">
+        <h3>Admin Controls</h3>
+        <ul class="admin-sidebar-menu">
+            <li class="active-admin-tab" onclick="switchAdminTab('revenue')"><i class="fa fa-wallet"></i> Revenue & Sales</li>
+            <li onclick="switchAdminTab('invoice')"><i class="fa fa-file-invoice-dollar"></i> Invoices</li>
+            <li onclick="switchAdminTab('commission')"><i class="fa fa-percentage"></i> Staff Commission</li>
+            <li onclick="switchAdminTab('products')"><i class="fa fa-boxes"></i> Apparel Inventory</li>
+            <li onclick="switchAdminTab('settings')"><i class="fa fa-sliders-h"></i> Settings</li>
+        </ul>
+    </div>
     
-    <a href="https://wa.me/254731858997" target="_blank" style="color:#25D366;">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+    <div class="content">
+        <div id="panel-revenue" class="admin-panel-card">
+            <h2>Boutique Revenue Overview</h2>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
+                <div style="background:#f4f4f4; padding:20px; border-radius:8px;">
+                    <p style="color:#666; font-size:14px;">Gross Apparel Sales</p>
+                    <h3 id="revenueGrossSales" style="font-size:24px; margin-top:5px; color:#1f1924;">KSh 0</h3>
+                </div>
+                <div style="background:#f4f4f4; padding:20px; border-radius:8px;">
+                    <p style="color:#666; font-size:14px;">Staff Commission Payouts</p>
+                    <h3 id="revenueCommissionsPaid" style="font-size:24px; margin-top:5px; color:#e11d48;">KSh 0</h3>
+                </div>
+            </div>
+        </div>
 
-  <a href="https://facebook.com" target="_blank" style="color:#1877F2;">
-    <i class="fab fa-facebook-f"></i>
-  </a>
+        <div id="panel-invoice" class="admin-panel-card" style="display: none;">
+            <h2>Invoices Management</h2>
+            <button class="apply-btn" style="width: auto; padding: 10px 20px; margin-bottom:15px;" onclick="openInvoiceModal()">+ Create New Invoice</button>
+            <table class="admin-data-table">
+                <thead>
+                    <tr><th>Invoice ID</th><th>Customer</th><th>Product</th><th>Sales Rep</th><th>Amount</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="adminInvoiceTableBody"></tbody>
+            </table>
+        </div>
 
-  <a href="https://instagram.com" target="_blank" style="color:#E4405F;">
-    <i class="fab fa-instagram"></i>
-  </a>
+        <div id="panel-commission" class="admin-panel-card" style="display: none;">
+            <h2>Sales Representative Commission</h2>
+            <table class="admin-data-table">
+                <thead>
+                    <tr><th>Staff Member</th><th>Role</th><th>Sales Volume</th><th>Commission Rate</th><th>Earned Payout</th></tr>
+                </thead>
+                <tbody id="adminCommissionTableBody"></tbody>
+            </table>
+        </div>
 
+        <div id="panel-products" class="admin-panel-card" style="display: none;">
+            <h2>Fashion Catalog Inventory</h2>
+            <button class="apply-btn" style="width: auto; padding: 10px 20px; margin-bottom:15px;" onclick="openAddProductModal()">+ Add New Item</button>
+            <table class="admin-data-table">
+                <thead>
+                    <tr><th>Item Name</th><th>Category</th><th>Price</th><th>Stock Status</th></tr>
+                </thead>
+                <tbody id="adminProductsTableBody"></tbody>
+            </table>
+        </div>
 
+        <div id="panel-settings" class="admin-panel-card" style="display: none;">
+            <h2>Platform Settings & Staff Roster</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div>
+                    <h3 style="font-size: 16px; margin-bottom: 15px; color:#e11d48;">Add Staff Member</h3>
+                    <form id="addEmployeeForm" style="display: grid; gap: 12px; background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                        <input type="text" id="empName" placeholder="Full Name" required style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+                        <input type="email" id="empEmail" placeholder="Email Address" required style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+                        <select id="empRole" style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+                            <option value="Salesperson">Sales Rep</option>
+                            <option value="Manager">Manager</option>
+                        </select>
+                        <input type="number" id="empCommRate" min="0" max="100" value="5" step="0.1" placeholder="Comm Rate %" required style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+                        <button type="submit" class="apply-btn">Save Staff</button>
+                    </form>
+                </div>
+                <div>
+                    <h3 style="font-size: 16px; margin-bottom: 15px; color:#e11d48;">Active Roster</h3>
+                    <table class="admin-data-table">
+                        <thead><tr><th>Name</th><th>Role</th><th>Rate</th></tr></thead>
+                        <tbody id="adminEmployeesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<div class="modal" id="adminLoginModal">
+    <div class="modal-content" style="max-width: 400px; padding: 30px;">
+        <button class="close-modal" onclick="closeModal('adminLoginModal')"><i class="fa fa-times"></i></button>
+        <h3 style="margin-bottom: 20px; text-align: center;">Admin Verification</h3>
+        <form id="adminLoginForm" style="display: grid; gap: 15px;">
+            <input type="email" id="adminEmail" placeholder="Email Address" required style="padding:12px; border:1px solid #ddd; border-radius:6px;">
+            <input type="password" id="adminPassword" placeholder="Password" required style="padding:12px; border:1px solid #ddd; border-radius:6px;">
+            <button type="submit" class="apply-btn" style="background:#e11d48;">Login</button>
+        </form>
+    </div>
 </div>
 
-  <div class="footer-section">
-    <h4>💳 Payment</h4>
-    <p>M-PESA Till: 123456</p>
-    <p>Visa / MasterCard</p>
-    <p>Cash on Delivery</p>
-  </div>
-
-  <div class="footer-section">
-    <h4>📜 Terms</h4>
-    <p>No refunds after 7 days</p>
-    <p>Warranty where stated</p>
-    <p>Prices may change</p>
-  </div>
-
+<div class="modal" id="invoiceModal">
+    <div class="modal-content" style="max-width: 500px; padding: 30px;">
+        <button class="close-modal" onclick="closeModal('invoiceModal')"><i class="fa fa-times"></i></button>
+        <h3 id="invoiceModalTitle" style="margin-bottom: 20px; text-align: center;">Create Invoice</h3>
+        <form id="invoiceForm" style="display: grid; gap: 12px;">
+            <input type="hidden" id="invId">
+            <input type="text" id="invCustomer" placeholder="Customer Name" required style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+            <input type="text" id="invProduct" placeholder="Product Description" required style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+            <select id="invSalesRep" style="padding:10px; border:1px solid #ddd; border-radius:6px;"></select>
+            <input type="number" id="invAmount" placeholder="Amount (KSh)" required style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+            <select id="invStatus" style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+                <option value="Paid">Paid</option>
+                <option value="Pending">Pending</option>
+            </select>
+            <button type="submit" class="apply-btn" style="background:#e11d48;">Save Invoice</button>
+        </form>
+    </div>
 </div>
 
-<div class="footer-bottom">
-  <p>© 2026Acacia Liquor Store</p>
+<div class="modal" id="itemModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal('itemModal')"><i class="fa fa-times"></i></button>
+        <div class="modal-gallery">
+            <div class="main-image"><img id="modalMainImage" src=""></div>
+            <div>
+                <h2 id="modalTitle"></h2>
+                <div class="stars" id="modalStars"></div>
+                <h3 id="modalPriceText" style="color: #e11d48; margin: 10px 0;"></h3>
+                <div class="item-info" id="modalItemInfo"></div>
+                
+                <form style="display:grid; gap:8px; margin-top:15px;" onsubmit="event.preventDefault(); alert('Product Inquiry Sent!'); closeModal('itemModal');">
+                    <h4 style="font-size:14px;">Direct Size & Availability Inquiry</h4>
+                    <input type="text" placeholder="Your Name" required style="padding:8px; border:1px solid #ddd; border-radius:4px;">
+                    <input type="email" placeholder="Your Email" required style="padding:8px; border:1px solid #ddd; border-radius:4px;">
+                    <textarea rows="2" placeholder="Ask about size availability, color options, or fabric..." required style="padding:8px; border:1px solid #ddd; border-radius:4px;"></textarea>
+                    
+                    <label style="font-size:12px; font-weight:bold;">Rate Product:</label>
+                    <select id="userRating" style="padding:6px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="5">5 - Excellent Quality</option>
+                        <option value="4">4 - Good Fit</option>
+                        <option value="3">3 - Average</option>
+                    </select>
+
+                    <button type="submit" class="apply-btn" style="margin-top:5px;">Submit Inquiry</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="related-section">
+            <h3><i class="fa fa-shirt"></i> Related Styles & Apparel</h3>
+            <div class="related-grid" id="relatedGrid"></div>
+        </div>
+    </div>
 </div>
 
+<div class="modal" id="cartModal">
+    <div class="modal-content" style="max-width: 600px; padding: 25px;">
+        <button class="close-modal" onclick="closeModal('cartModal')"><i class="fa fa-times"></i></button>
+        <h2><i class="fa fa-shopping-bag"></i> Shopping Cart & Checkout</h2>
+        
+        <div id="cartItemsList" style="margin:20px 0; max-height:200px; overflow-y:auto;"></div>
+        <div style="font-size:18px; font-weight:bold; text-align:right; margin-bottom:15px;">
+            Total: <span id="cartTotalPrice" style="color:#e11d48;">KSh 0</span>
+        </div>
+
+        <h3 style="font-size:15px; margin-bottom:8px;">Select Payment Method:</h3>
+        <div class="payment-methods">
+            <div class="payment-method-card active" id="payMpesa" onclick="selectPayment('mpesa')">
+                <i class="fa fa-mobile-alt fa-2x" style="color:#27ae60;"></i>
+                <div style="font-size:12px; margin-top:5px;">M-Pesa Express</div>
+            </div>
+            <div class="payment-method-card" id="payCard" onclick="selectPayment('card')">
+                <i class="fa fa-credit-card fa-2x" style="color:#2980b9;"></i>
+                <div style="font-size:12px; margin-top:5px;">Credit/Debit Card</div>
+            </div>
+            <div class="payment-method-card" id="payCod" onclick="selectPayment('cod')">
+                <i class="fa fa-money-bill-wave fa-2x" style="color:#f39c12;"></i>
+                <div style="font-size:12px; margin-top:5px;">Pay on Delivery</div>
+            </div>
+        </div>
+
+        <form onsubmit="processPayment(event)" style="display:grid; gap:10px;">
+            <div id="mpesaFields">
+                <input type="tel" id="mpesaPhone" placeholder="M-Pesa Phone Number (07XX XXX XXX)" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+            </div>
+            <div id="cardFields" style="display:none; gap:8px;">
+                <input type="text" placeholder="Cardholder Name" style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+                <input type="text" placeholder="Card Number" style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+            </div>
+            <button type="submit" class="apply-btn" style="background:#27ae60; font-size:16px;">Place Order</button>
+        </form>
+    </div>
+</div>
+
+<div class="modal" id="addProductModal">
+    <div class="modal-content" style="max-width: 500px; padding: 30px;">
+        <button class="close-modal" onclick="closeModal('addProductModal')"><i class="fa fa-times"></i></button>
+        <h3 style="margin-bottom: 20px; text-align: center;">Add Fashion Item</h3>
+        <form id="addProductForm" style="display: grid; gap: 12px;">
+            <input type="text" id="addProdName" placeholder="Product Title / Name" required style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+            <select id="addProdCat" style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+                <option value="Women's Wear">Women's Wear</option>
+                <option value="Men's Wear">Men's Wear</option>
+                <option value="Innerwear">Innerwear</option>
+                <option value="Shoes">Shoes & Footwear</option>
+            </select>
+            <input type="number" id="addProdPrice" placeholder="Price (KSh)" required style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+            <input type="text" id="addProdBrand" placeholder="Brand (e.g. Zara, Nike)" style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+            <input type="text" id="addProdSize" placeholder="Size (e.g. M, L, 42)" style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+            <select id="addProdGender" style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+                <option value="Women">Women</option>
+                <option value="Men">Men</option>
+                <option value="Unisex">Unisex</option>
+            </select>
+            <input type="url" id="addProdImage" placeholder="Image URL" style="padding:10px; border:1px solid #ddd; border-radius:6px;">
+            <button type="submit" class="apply-btn" style="background:#e11d48;">Publish to Storefront</button>
+        </form>
+    </div>
+</div>
+<div class="floating-social-container">
+   
+    <a href="https://wa.me/254700000000?text=Hello%20Haven%20Fashion,%20I%20have%20an%20inquiry%20about%20a%20clothing%20item." 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="floating-btn btn-whatsapp" 
+       title="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <a href="https://instagram.com/yourhandle" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="floating-btn btn-instagram" 
+       title="Follow us on Instagram">
+        <i class="fa-brands fa-instagram"></i>
+    </a>
+
+    <a href="https://facebook.com/yourhandle" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="floating-btn btn-facebook" 
+       title="Follow us on Facebook">
+        <i class="fa-brands fa-facebook-f"></i>
+    </a>
+
+    <a href="https://x.com/yourhandle" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="floating-btn btn-x" 
+       title="Follow us on X">
+        <i class="fa-brands fa-x-twitter"></i>
+    </a>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>About Haven Fashion</h4>
+            <p>Your premium boutique for men's and women's apparel, comfortable luxury innerwear, and trend-setting footwear for every occasion.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Popular Departments</h4>
+            <ul>
+                <li><a href="#" onclick="showPage('women')">Women's Dresses & Tops</a></li>
+                <li><a href="#" onclick="showPage('men')">Men's Suits & Shirts</a></li>
+                <li><a href="#" onclick="showPage('innerwear')">Lingerie & Underwear</a></li>
+                <li><a href="#" onclick="showPage('shoes')">Sneakers, Boots & Heels</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Contact Info</h4>
+            <p><i class="fa fa-phone"></i> +254 (0) 700 000 000</p>
+            <p><i class="fa fa-envelope"></i> fashion@havenapparel.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Haven Fashion & Apparel. All Rights Reserved.</div>
 </footer>
 
 <script>
-const mottos = [
-  "🚚 Fast & Reliable Delivery Across Kenya",
-  "✅ Trusted Quality Medicines & Health Products",
-  "💰 Affordable Prices + Special Discounts Available",
-  "📞 Call / WhatsApp: +254 731 858 997",
-  "💳 Flexible Payment Plans Available (M-PESA, Card, Cash)",
-  "⚡ Order Now – Quick Service & Secure Payments"
+const products = [
+    { id: 1, name: "Women's Elegant Silk Evening Gown", category: "Women's Wear", brand: "Zara", size: "M", gender: "Women", rating: 5, price: "KSh 8,500", rawPrice: 8500, inStock: true, images: ["https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000"] },
+    { id: 2, name: "Men's Tailored Two-Piece Slim Suit", category: "Men's Wear", brand: "Hugo Boss", size: "L", gender: "Men", rating: 5, price: "KSh 18,000", rawPrice: 18000, inStock: true, images: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1000"] },
+    { id: 3, name: "Calvin Klein Men's Cotton Boxer Briefs 3-Pack", category: "Innerwear", brand: "Calvin Klein", size: "L", gender: "Men", rating: 5, price: "KSh 4,200", rawPrice: 4200, inStock: true, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1000"] },
+    { id: 4, name: "Victoria's Secret Lace Bralette & Panty Set", category: "Innerwear", brand: "Victoria's Secret", size: "S", gender: "Women", rating: 5, price: "KSh 6,500", rawPrice: 6500, inStock: true, images: ["https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=1000"] },
+    { id: 5, name: "Nike Air Max Sneakers Unisex", category: "Shoes", brand: "Nike", size: "42", gender: "Unisex", rating: 4, price: "KSh 12,500", rawPrice: 12500, inStock: true, images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000"] },
+    { id: 6, name: "Women's Designer Leather Stiletto Heels", category: "Shoes", brand: "Zara", size: "38", gender: "Women", rating: 4, price: "KSh 9,800", rawPrice: 9800, inStock: false, images: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000"] },
+    { id: 7, name: "Men's Casual Cotton Chino Trousers", category: "Men's Wear", brand: "H&M", size: "32", gender: "Men", rating: 4, price: "KSh 3,500", rawPrice: 3500, inStock: true, images: ["https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=1000"] },
+    { id: 8, name: "Women's High-Waist Skinny Denim Jeans", category: "Women's Wear", brand: "Levi's", size: "28", gender: "Women", rating: 5, price: "KSh 5,800", rawPrice: 5800, inStock: true, images: ["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1000"] },
+    { id: 9, name: "Unisex Oversized Graphic Hoodie", category: "Unisex Wear", brand: "Adidas", size: "L", gender: "Unisex", rating: 4, price: "KSh 4,500", rawPrice: 4500, inStock: true, images: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000"] },
+    { id: 10, name: "Men's Classic Oxford Cotton Shirt", category: "Men's Wear", brand: "Ralph Lauren", size: "M", gender: "Men", rating: 5, price: "KSh 6,200", rawPrice: 6200, inStock: true, images: ["https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=1000"] },
+    { id: 11, name: "Women's Floral Summer Wrap Dress", category: "Women's Wear", brand: "Zara", size: "S", gender: "Women", rating: 4, price: "KSh 4,800", rawPrice: 4800, inStock: true, images: ["https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=1000"] },
+    { id: 12, name: "Puma Running Sports Bra", category: "Innerwear", brand: "Puma", size: "M", gender: "Women", rating: 4, price: "KSh 2,800", rawPrice: 2800, inStock: true, images: ["https://images.unsplash.com/photo-1518310383802-640c2de311b2?q=80&w=1000"] },
+    { id: 13, name: "Men's Athletic Moisture-Wicking Boxer Briefs", category: "Innerwear", brand: "Under Armour", size: "XL", gender: "Men", rating: 5, price: "KSh 3,200", rawPrice: 3200, inStock: true, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1000"] },
+    { id: 14, name: "Unisex Classic Canvas Low-Top Sneakers", category: "Shoes", brand: "Vans", size: "40", gender: "Unisex", rating: 4, price: "KSh 6,500", rawPrice: 6500, inStock: true, images: ["https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=1000"] },
+    { id: 15, name: "Men's Genuine Leather Formal Brogues", category: "Shoes", brand: "Clarks", size: "43", gender: "Men", rating: 5, price: "KSh 11,000", rawPrice: 11000, inStock: false, images: ["https://images.unsplash.com/photo-1533867617858-e7d97e0cfe8b?q=80&w=1000"] },
+    { id: 16, name: "Women's Fleece-Lined Winter Parka Jacket", category: "Women's Wear", brand: "The North Face", size: "M", gender: "Women", rating: 5, price: "KSh 15,500", rawPrice: 15500, inStock: true, images: ["https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=1000"] },
+    { id: 17, name: "Men's Heavyweight Puffer Winter Jacket", category: "Men's Wear", brand: "Zara", size: "XL", gender: "Men", rating: 4, price: "KSh 14,000", rawPrice: 14000, inStock: true, images: ["https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1000"] },
+    { id: 18, name: "Women's Satin Seamless Push-Up Bra", category: "Innerwear", brand: "Calvin Klein", size: "34B", gender: "Women", rating: 4, price: "KSh 3,900", rawPrice: 3900, inStock: true, images: ["https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=1000"] },
+    { id: 19, name: "Men's Striped Cotton Sleep Pants", category: "Innerwear", brand: "H&M", size: "M", gender: "Men", rating: 3, price: "KSh 2,500", rawPrice: 2500, inStock: true, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1000"] },
+    { id: 20, name: "Unisex Running Performance Socks 3-Pack", category: "Innerwear", brand: "Nike", size: "Free", gender: "Unisex", rating: 5, price: "KSh 1,500", rawPrice: 1500, inStock: true, images: ["https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?q=80&w=1000"] },
+    { id: 21, name: "Women's Casual Linen Button-Down Shirt", category: "Women's Wear", brand: "H&M", size: "S", gender: "Women", rating: 4, price: "KSh 3,200", rawPrice: 3200, inStock: true, images: ["https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=1000"] },
+    { id: 22, name: "Men's Graphic Printed Cotton T-Shirt", category: "Men's Wear", brand: "Levi's", size: "L", gender: "Men", rating: 4, price: "KSh 2,200", rawPrice: 2200, inStock: true, images: ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1000"] },
+    { id: 23, name: "Women's Pleated Midi Tennis Skirt", category: "Women's Wear", brand: "Zara", size: "XS", gender: "Women", rating: 4, price: "KSh 3,800", rawPrice: 3800, inStock: true, images: ["https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=1000"] },
+    { id: 24, name: "Men's Slim Fit Biker Denim Jacket", category: "Men's Wear", brand: "Diesel", size: "L", gender: "Men", rating: 5, price: "KSh 13,500", rawPrice: 13500, inStock: false, images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1000"] },
+    { id: 25, name: "Unisex High-Top Basketball Shoes", category: "Shoes", brand: "Jordan", size: "44", gender: "Unisex", rating: 5, price: "KSh 16,500", rawPrice: 16500, inStock: true, images: ["https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?q=80&w=1000"] },
+    { id: 26, name: "Women's Strappy Block Heel Sandals", category: "Shoes", brand: "H&M", size: "37", gender: "Women", rating: 4, price: "KSh 4,500", rawPrice: 4500, inStock: true, images: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000"] },
+    { id: 27, name: "Men's Leather Casual Slip-On Loafers", category: "Shoes", brand: "Clarks", size: "42", gender: "Men", rating: 4, price: "KSh 8,200", rawPrice: 8200, inStock: true, images: ["https://images.unsplash.com/photo-1533867617858-e7d97e0cfe8b?q=80&w=1000"] },
+    { id: 28, name: "Women's Thermal Fleece Leggings", category: "Innerwear", brand: "Under Armour", size: "S", gender: "Women", rating: 5, price: "KSh 3,000", rawPrice: 3000, inStock: true, images: ["https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?q=80&w=1000"] },
+    { id: 29, name: "Men's Thermal Long Underwear Set", category: "Innerwear", brand: "H&M", size: "L", gender: "Men", rating: 4, price: "KSh 4,000", rawPrice: 4000, inStock: true, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1000"] },
+    { id: 30, name: "Women's Seamless High-Waist Shapewear", category: "Innerwear", brand: "Spanx", size: "M", gender: "Women", rating: 5, price: "KSh 5,500", rawPrice: 5500, inStock: true, images: ["https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=1000"] },
+    { id: 31, name: "Unisex Cotton Terry Bathrobe", category: "Innerwear", brand: "Zara Home", size: "L", gender: "Unisex", rating: 4, price: "KSh 6,800", rawPrice: 6800, inStock: true, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1000"] },
+    { id: 32, name: "Women's Tailored Office Blazer", category: "Women's Wear", brand: "Zara", size: "M", gender: "Women", rating: 5, price: "KSh 7,500", rawPrice: 7500, inStock: true, images: ["https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000"] },
+    { id: 33, name: "Men's Wool Blend Winter Overcoat", category: "Men's Wear", brand: "Hugo Boss", size: "XL", gender: "Men", rating: 5, price: "KSh 22,000", rawPrice: 22000, inStock: true, images: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1000"] },
+    { id: 34, name: "Unisex Classic Baseball Cap", category: "Unisex Wear", brand: "Nike", size: "Free", gender: "Unisex", rating: 4, price: "KSh 2,000", rawPrice: 2000, inStock: true, images: ["https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=1000"] },
+    { id: 35, name: "Women's Knit Turtleneck Sweater", category: "Women's Wear", brand: "H&M", size: "S", gender: "Women", rating: 4, price: "KSh 4,200", rawPrice: 4200, inStock: true, images: ["https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=1000"] },
+    { id: 36, name: "Men's Ribbed Crewneck Pullover Sweater", category: "Men's Wear", brand: "Ralph Lauren", size: "L", gender: "Men", rating: 5, price: "KSh 6,500", rawPrice: 6500, inStock: true, images: ["https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1000"] },
+    { id: 37, name: "Women's Athletic Yoga Leggings", category: "Women's Wear", brand: "Lululemon", size: "M", gender: "Women", rating: 5, price: "KSh 7,200", rawPrice: 7200, inStock: true, images: ["https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?q=80&w=1000"] },
+    { id: 38, name: "Men's Track Jogger Sweatpants", category: "Men's Wear", brand: "Adidas", size: "M", gender: "Men", rating: 4, price: "KSh 4,000", rawPrice: 4000, inStock: true, images: ["https://images.unsplash.com/photo-1552902865-b72c031ac5ea?q=80&w=1000"] },
+    { id: 39, name: "Unisex Waterproof Rain Jacket", category: "Unisex Wear", brand: "The North Face", size: "L", gender: "Unisex", rating: 5, price: "KSh 9,500", rawPrice: 9500, inStock: true, images: ["https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=1000"] },
+    { id: 40, name: "Women's Satin Nightgown Sleepwear", category: "Innerwear", brand: "Victoria's Secret", size: "S", gender: "Women", rating: 4, price: "KSh 4,800", rawPrice: 4800, inStock: true, images: ["https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=1000"] },
+    { id: 41, name: "Men's Silk Luxury Tie and Pocket Square Set", category: "Men's Wear", brand: "Hugo Boss", size: "Free", gender: "Men", rating: 5, price: "KSh 3,800", rawPrice: 3800, inStock: true, images: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1000"] },
+    { id: 42, name: "Women's Bohemian Maxi Skirt", category: "Women's Wear", brand: "Zara", size: "M", gender: "Women", rating: 4, price: "KSh 5,200", rawPrice: 5200, inStock: true, images: ["https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=1000"] },
+    { id: 43, name: "Men's Cargo Utility Pants", category: "Men's Wear", brand: "H&M", size: "34", gender: "Men", rating: 4, price: "KSh 4,500", rawPrice: 4500, inStock: true, images: ["https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=1000"] },
+    { id: 44, name: "Women's Platform Ankle Boots", category: "Shoes", brand: "Dr. Martens", size: "39", gender: "Women", rating: 5, price: "KSh 14,500", rawPrice: 14500, inStock: true, images: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000"] },
+    { id: 45, name: "Men's Classic Leather Chelsea Boots", category: "Shoes", brand: "Clarks", size: "43", gender: "Men", rating: 5, price: "KSh 13,000", rawPrice: 13000, inStock: true, images: ["https://images.unsplash.com/photo-1533867617858-e7d97e0cfe8b?q=80&w=1000"] },
+    { id: 46, name: "Unisex Slide Sandals", category: "Shoes", brand: "Adidas", size: "41", gender: "Unisex", rating: 4, price: "KSh 2,500", rawPrice: 2500, inStock: true, images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000"] },
+    { id: 47, name: "Women's Lace-Trimmed Silk Camisole", category: "Innerwear", brand: "Zara", size: "S", gender: "Women", rating: 4, price: "KSh 3,200", rawPrice: 3200, inStock: true, images: ["https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=1000"] },
+    { id: 48, name: "Men's Cotton Lounge Shorts", category: "Innerwear", brand: "Calvin Klein", size: "L", gender: "Men", rating: 4, price: "KSh 2,800", rawPrice: 2800, inStock: true, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1000"] },
+    { id: 49, name: "Women's Denim Trucker Jacket", category: "Women's Wear", brand: "Levi's", size: "M", gender: "Women", rating: 5, price: "KSh 6,800", rawPrice: 6800, inStock: true, images: ["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1000"] },
+    { id: 50, name: "Men's Fleece Zip-Up Hoodie", category: "Men's Wear", brand: "Nike", size: "L", gender: "Men", rating: 4, price: "KSh 5,800", rawPrice: 5800, inStock: true, images: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000"] },
+    { id: 51, name: "Women's Off-Shoulder Party Dress", category: "Women's Wear", brand: "Zara", size: "S", gender: "Women", rating: 5, price: "KSh 7,000", rawPrice: 7000, inStock: true, images: ["https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000"] },
+    { id: 52, name: "Men's Formal Tuxedo Shirt", category: "Men's Wear", brand: "Hugo Boss", size: "16", gender: "Men", rating: 5, price: "KSh 7,800", rawPrice: 7800, inStock: true, images: ["https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=1000"] },
+    { id: 53, name: "Unisex Cotton Crew Socks 5-Pack", category: "Innerwear", brand: "Puma", size: "Free", gender: "Unisex", rating: 4, price: "KSh 1,800", rawPrice: 1800, inStock: true, images: ["https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?q=80&w=1000"] },
+    { id: 54, name: "Women's Seamless Bikini Panties 4-Pack", category: "Innerwear", brand: "Calvin Klein", size: "M", gender: "Women", rating: 5, price: "KSh 3,500", rawPrice: 3500, inStock: true, images: ["https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=1000"] },
+    { id: 55, name: "Men's Modal Knit Boxer Briefs", category: "Innerwear", brand: "Hugo Boss", size: "L", gender: "Men", rating: 5, price: "KSh 4,500", rawPrice: 4500, inStock: true, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1000"] },
+    { id: 56, name: "Women's Pointed-Toe Flat Shoes", category: "Shoes", brand: "Zara", size: "38", gender: "Women", rating: 4, price: "KSh 5,000", rawPrice: 5000, inStock: true, images: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000"] },
+    { id: 57, name: "Men's Running Cushion Shoes", category: "Shoes", brand: "Nike", size: "43", gender: "Men", rating: 5, price: "KSh 13,800", rawPrice: 13800, inStock: true, images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000"] },
+    { id: 58, name: "Women's Puffer Vest Gilet", category: "Women's Wear", brand: "The North Face", size: "M", gender: "Women", rating: 4, price: "KSh 8,200", rawPrice: 8200, inStock: true, images: ["https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=1000"] },
+    { id: 59, name: "Men's Windbreaker Athletic Jacket", category: "Men's Wear", brand: "Adidas", size: "L", gender: "Men", rating: 4, price: "KSh 6,500", rawPrice: 6500, inStock: true, images: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000"] },
+    { id: 60, name: "Unisex Knitted Winter Beanie", category: "Unisex Wear", brand: "Carhartt", size: "Free", gender: "Unisex", rating: 5, price: "KSh 2,200", rawPrice: 2200, inStock: true, images: ["https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?q=80&w=1000"] },
+    { id: 61, name: "Women's High-Waisted Wide-Leg Trousers", category: "Women's Wear", brand: "Zara", size: "M", gender: "Women", rating: 5, price: "KSh 6,000", rawPrice: 6000, inStock: true, images: ["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1000"] },
+    { id: 62, name: "Men's Polo Collar Cotton T-Shirt", category: "Men's Wear", brand: "Ralph Lauren", size: "L", gender: "Men", rating: 5, price: "KSh 5,200", rawPrice: 5200, inStock: true, images: ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1000"] },
+    { id: 63, name: "Women's Sports Compression Shorts", category: "Innerwear", brand: "Nike", size: "S", gender: "Women", rating: 4, price: "KSh 2,800", rawPrice: 2800, inStock: true, images: ["https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?q=80&w=1000"] },
+    { id: 64, name: "Men's Thermal Hooded Base Layer", category: "Innerwear", brand: "The North Face", size: "L", gender: "Men", rating: 5, price: "KSh 6,000", rawPrice: 6000, inStock: true, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1000"] },
+    { id: 65, name: "Unisex Leather Crossbody Messenger Bag", category: "Unisex Wear", brand: "Fossil", size: "Free", gender: "Unisex", rating: 5, price: "KSh 11,500", rawPrice: 11500, inStock: true, images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1000"] },
+    { id: 66, name: "Women's Velvet Evening Blazer", category: "Women's Wear", brand: "Zara", size: "S", gender: "Women", rating: 5, price: "KSh 9,000", rawPrice: 9000, inStock: false, images: ["https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000"] },
+    { id: 67, name: "Men's Plaid Flannel Casual Shirt", category: "Men's Wear", brand: "Levi's", size: "L", gender: "Men", rating: 4, price: "KSh 4,800", rawPrice: 4800, inStock: true, images: ["https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=1000"] },
+    { id: 68, name: "Women's Metallic Party Clutch Bag", category: "Unisex Wear", brand: "Zara", size: "Free", gender: "Women", rating: 4, price: "KSh 3,800", rawPrice: 3800, inStock: true, images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1000"] },
+    { id: 69, name: "Men's Stainless Steel Minimalist Watch", category: "Unisex Wear", brand: "Fossil", size: "Free", gender: "Men", rating: 5, price: "KSh 14,000", rawPrice: 14000, inStock: true, images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000"] },
+    { id: 70, name: "Women's Cotton Sleep Pyjama Set", category: "Innerwear", brand: "H&M", size: "M", gender: "Women", rating: 4, price: "KSh 4,500", rawPrice: 4500, inStock: true, images: ["https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=1000"] },
+    { id: 71, name: "Unisex UV Protection Sunglasses", category: "Unisex Wear", brand: "Ray-Ban", size: "Free", gender: "Unisex", rating: 5, price: "KSh 12,000", rawPrice: 12000, inStock: true, images: ["https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=1000"] },
+    { id: 72, name: "Women's Chunky Knit Cardigan", category: "Women's Wear", brand: "H&M", size: "M", gender: "Women", rating: 4, price: "KSh 5,500", rawPrice: 5500, inStock: true, images: ["https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=1000"] },
+    { id: 73, name: "Men's Tracksuit Full Zip Set", category: "Men's Wear", brand: "Nike", size: "L", gender: "Men", rating: 5, price: "KSh 12,000", rawPrice: 12000, inStock: true, images: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000"] },
+    { id: 74, name: "Women's Seamless Thong Underwear 5-Pack", category: "Innerwear", brand: "Victoria's Secret", size: "S", gender: "Women", rating: 4, price: "KSh 3,800", rawPrice: 3800, inStock: true, images: ["https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=1000"] },
+    { id: 75, name: "Men's Leather Reversible Belt", category: "Men's Wear", brand: "Hugo Boss", size: "34", gender: "Men", rating: 5, price: "KSh 5,000", rawPrice: 5000, inStock: true, images: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1000"] },
+    { id: 76, name: "Women's Metallic Strappy Stilettos", category: "Shoes", brand: "Zara", size: "37", gender: "Women", rating: 4, price: "KSh 8,800", rawPrice: 8800, inStock: true, images: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000"] },
+    { id: 77, name: "Men's Casual Canvas Slip-On Shoes", category: "Shoes", brand: "Vans", size: "42", gender: "Men", rating: 4, price: "KSh 5,800", rawPrice: 5800, inStock: true, images: ["https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=1000"] },
+    { id: 78, name: "Unisex Cotton Everyday Backpack", category: "Unisex Wear", brand: "Herschel", size: "Free", gender: "Unisex", rating: 5, price: "KSh 8,500", rawPrice: 8500, inStock: true, images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1000"] },
+    { id: 79, name: "Women's Trench Coat with Belt", category: "Women's Wear", brand: "Zara", size: "M", gender: "Women", rating: 5, price: "KSh 12,500", rawPrice: 12500, inStock: true, images: ["https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=1000"] },
+    { id: 80, name: "Men's Lightweight Bomber Jacket", category: "Men's Wear", brand: "Zara", size: "L", gender: "Men", rating: 4, price: "KSh 8,900", rawPrice: 8900, inStock: true, images: ["https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1000"] },
+    { id: 81, name: "Women's Racerback Sports Bra", category: "Innerwear", brand: "Lululemon", size: "M", gender: "Women", rating: 5, price: "KSh 4,500", rawPrice: 4500, inStock: true, images: ["https://images.unsplash.com/photo-1518310383802-640c2de311b2?q=80&w=1000"] },
+    { id: 82, name: "Men's Compression Baselayer Top", category: "Innerwear", brand: "Under Armour", size: "L", gender: "Men", rating: 5, price: "KSh 5,200", rawPrice: 5200, inStock: true, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1000"] },
+    { id: 83, name: "Unisex Fleece Pullover Hoodie", category: "Unisex Wear", brand: "Champion", size: "M", gender: "Unisex", rating: 4, price: "KSh 6,000", rawPrice: 6000, inStock: true, images: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000"] },
+    { id: 84, name: "Women's High-Rise Denim Shorts", category: "Women's Wear", brand: "Levi's", size: "27", gender: "Women", rating: 4, price: "KSh 3,800", rawPrice: 3800, inStock: true, images: ["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1000"] },
+    { id: 85, name: "Men's Slim Fit Dress Pants", category: "Men's Wear", brand: "Hugo Boss", size: "32", gender: "Men", rating: 5, price: "KSh 8,500", rawPrice: 8500, inStock: true, images: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1000"] },
+    { id: 86, name: "Women's Satin Chemise Sleepwear", category: "Innerwear", brand: "Victoria's Secret", size: "M", gender: "Women", rating: 4, price: "KSh 5,200", rawPrice: 5200, inStock: true, images: ["https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=1000"] },
+    { id: 87, name: "Men's Classic Leather Wallet", category: "Unisex Wear", brand: "Fossil", size: "Free", gender: "Men", rating: 5, price: "KSh 3,500", rawPrice: 3500, inStock: true, images: ["https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=1000"] },
+    { id: 88, name: "Women's Quilted Crossbody Handbag", category: "Unisex Wear", brand: "Zara", size: "Free", gender: "Women", rating: 5, price: "KSh 6,500", rawPrice: 6500, inStock: true, images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1000"] },
+    { id: 89, name: "Unisex Wool Blend Scarf", category: "Unisex Wear", brand: "H&M", size: "Free", gender: "Unisex", rating: 4, price: "KSh 2,500", rawPrice: 2500, inStock: true, images: ["https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?q=80&w=1000"] },
+    { id: 90, name: "Women's Casual Denim Overalls", category: "Women's Wear", brand: "Levi's", size: "S", gender: "Women", rating: 4, price: "KSh 7,800", rawPrice: 7800, inStock: true, images: ["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1000"] },
+    { id: 91, name: "Men's Knit Zip Cardigan", category: "Men's Wear", brand: "H&M", size: "L", gender: "Men", rating: 4, price: "KSh 5,500", rawPrice: 5500, inStock: true, images: ["https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1000"] },
+    { id: 92, name: "Women's Pointed Toe Pumps", category: "Shoes", brand: "Zara", size: "38", gender: "Women", rating: 4, price: "KSh 7,500", rawPrice: 7500, inStock: true, images: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000"] },
+    { id: 93, name: "Men's Outdoor Hiking Boots", category: "Shoes", brand: "The North Face", size: "43", gender: "Men", rating: 5, price: "KSh 15,000", rawPrice: 15000, inStock: true, images: ["https://images.unsplash.com/photo-1533867617858-e7d97e0cfe8b?q=80&w=1000"] },
+    { id: 94, name: "Unisex Athletic Running Hat", category: "Unisex Wear", brand: "Nike", size: "Free", gender: "Unisex", rating: 4, price: "KSh 2,200", rawPrice: 2200, inStock: true, images: ["https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=1000"] },
+    { id: 95, name: "Women's Floral Print Kimono", category: "Women's Wear", brand: "Zara", size: "Free", gender: "Women", rating: 4, price: "KSh 4,500", rawPrice: 4500, inStock: true, images: ["https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=1000"] },
+    { id: 96, name: "Men's Linen Beach Shorts", category: "Men's Wear", brand: "H&M", size: "M", gender: "Men", rating: 4, price: "KSh 3,200", rawPrice: 3200, inStock: true, images: ["https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=1000"] },
+    { id: 97, name: "Women's Seamless Bandeau Bra", category: "Innerwear", brand: "Calvin Klein", size: "S", gender: "Women", rating: 4, price: "KSh 2,800", rawPrice: 2800, inStock: true, images: ["https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=1000"] },
+    { id: 98, name: "Men's Cotton Crew Socks 3-Pack", category: "Innerwear", brand: "Puma", size: "L", gender: "Men", rating: 5, price: "KSh 1,600", rawPrice: 1600, inStock: true, images: ["https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?q=80&w=1000"] },
+    { id: 99, name: "Unisex Canvas Tote Bag", category: "Unisex Wear", brand: "H&M", size: "Free", gender: "Unisex", rating: 4, price: "KSh 1,800", rawPrice: 1800, inStock: true, images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1000"] },
+    { id: 100, name: "Women's Velvet Slip Evening Dress", category: "Women's Wear", brand: "Zara", size: "M", gender: "Women", rating: 5, price: "KSh 9,500", rawPrice: 9500, inStock: true, images: ["https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000"] }
 ];
 
-let index = 0;
+const employees = [
+    { name: "Grace Wambui", email: "grace@havenapparel.com", role: "Salesperson", rate: 5 },
+    { name: "David Mutua", email: "david@havenapparel.com", role: "Salesperson", rate: 4.5 }
+];
 
-function changeMotto(){
-  document.getElementById("motto").textContent = mottos[index];
-  index = (index + 1) % mottos.length;
+let invoices = [
+    { id: "INV-2001", customer: "Sarah Jenkins", product: "Silk Evening Gown", salesRep: "Grace Wambui", amount: 8500, status: "Paid" },
+    { id: "INV-2002", customer: "Brian Otieno", product: "Tailored Slim Suit", salesRep: "David Mutua", amount: 18000, status: "Pending" }
+];
+
+let cart = [];
+let selectedPaymentMethod = 'mpesa';
+
+function renderProducts(list){
+    const grid = document.getElementById("itemGrid");
+    if(!grid) return;
+    grid.innerHTML = "";
+    if(list.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; padding: 40px; text-align:center; color:#888;">No fashion items match your filter selection.</div>`;
+        return;
+    }
+    list.forEach((item) => {
+        grid.innerHTML += `
+        <div class="item-card">
+            <img src="${item.images[0]}" class="item-image">
+            <div class="card-body">
+                <div class="item-title">${item.name}</div>
+                <div class="stars">${'★'.repeat(item.rating)}${'☆'.repeat(5 - item.rating)}</div>
+                <div style="font-size:18px; font-weight:bold; color:#e11d48; margin-bottom:10px;">${item.price}</div>
+                <div class="item-info">
+                    <div><i class="fa fa-tags"></i> ${item.category}</div>
+                    <div><i class="fa fa-copyright"></i> ${item.brand}</div>
+                    <div><i class="fa fa-ruler"></i> Size: ${item.size}</div>
+                    <div><i class="fa fa-check-circle"></i> ${item.inStock ? 'In Stock' : 'Out of Stock'}</div>
+                </div>
+                <div class="card-buttons">
+                    <button class="add-cart-btn" onclick="addToCart(${item.id})"><i class="fa fa-cart-plus"></i> Cart</button>
+                    <button class="inquiry-btn" onclick="openModal(${item.id})">Inquire</button>
+                    <button class="view-btn" onclick="openModal(${item.id})">Details</button>
+                </div>
+            </div>
+        </div>`;
+    });
 }
 
-setInterval(changeMotto, 2000);
-changeMotto();
-const products=[
-{name:"Basic T-Shirt Black", image:"images/nike.jpg", category:"T-Shirts", type:"Men", price:1200, stock:20, size:"M"},
-{name:"Oversized T-Shirt White", image:"images/nike.jpg", category:"T-Shirts", type:"Women", price:1500, stock:18, size:"L"},
-{name:"Kids Cotton T-Shirt", image:"images/nike.jpg", category:"T-Shirts", type:"Kids", price:900, stock:25, size:"S"},
+function showPage(page, navElement) {
+    if(navElement) {
+        document.querySelectorAll('.nav a').forEach(el => el.classList.remove('active-nav'));
+        navElement.classList.add('active-nav');
+    }
 
-{name:"Blue Denim Jeans", image:"images/nike.jpg", category:"Jeans", type:"Men", price:3000, stock:12, size:"L"},
-{name:"Women Skinny Jeans", image:"images/nike.jpg", category:"Jeans", type:"Women", price:3500, stock:10, size:"M"},
+    const catalogSec = document.getElementById("catalogSection");
+    const topSearchSec = document.getElementById("topSearchSection");
+    const filterSidebar = document.getElementById("mainFilterSidebar");
+    const deliverySec = document.getElementById("deliverySection");
+    const contactSec = document.getElementById("contactSection");
+    const pageTitle = document.getElementById("pageSectionTitle");
 
-{name:"Nike Air Force 1", image:"images/nike.jpg", category:"Shoes", type:"Men", price:7500, stock:10, size:"L"},
-{name:"Adidas Sneakers", image:"images/adidas.jpg", category:"Shoes", type:"Women", price:6500, stock:8, size:"M"},
-{name:"Kids Sport Shoes", image:"images/kids_shoes.jpg", category:"Shoes", type:"Kids", price:3500, stock:15, size:"S"},
+    catalogSec.style.display = "none";
+    topSearchSec.style.display = "none";
+    filterSidebar.style.display = "none";
+    deliverySec.style.display = "none";
+    contactSec.style.display = "none";
 
-{name:"Nike Hoodie", image:"images/hoodie_men.jpg", category:"Hoodies", type:"Men", price:4000, stock:10, size:"L"},
-{name:"Pink Hoodie Women", image:"images/hoodie_women.jpg", category:"Hoodies", type:"Women", price:3800, stock:9, size:"M"},
+    if (page === 'storefront') {
+        catalogSec.style.display = "block";
+        topSearchSec.style.display = "flex";
+        filterSidebar.style.display = "block";
+        pageTitle.innerText = "Trending Fashion & Collections";
+        renderProducts(products);
+    } else if (page === 'women') {
+        catalogSec.style.display = "block";
+        topSearchSec.style.display = "flex";
+        filterSidebar.style.display = "block";
+        pageTitle.innerText = "Women's Clothing & Dresses";
+        renderProducts(products.filter(p => p.category === "Women's Wear"));
+    } else if (page === 'men') {
+        catalogSec.style.display = "block";
+        topSearchSec.style.display = "flex";
+        filterSidebar.style.display = "block";
+        pageTitle.innerText = "Men's Clothing & Suits";
+        renderProducts(products.filter(p => p.category === "Men's Wear"));
+    } else if (page === 'innerwear') {
+        catalogSec.style.display = "block";
+        topSearchSec.style.display = "flex";
+        filterSidebar.style.display = "block";
+        pageTitle.innerText = "Innerwear & Lingerie Collection";
+        renderProducts(products.filter(p => p.category === "Innerwear"));
+    } else if (page === 'shoes') {
+        catalogSec.style.display = "block";
+        topSearchSec.style.display = "flex";
+        filterSidebar.style.display = "block";
+        pageTitle.innerText = "Shoes, Boots & Footwear";
+        renderProducts(products.filter(p => p.category === "Shoes"));
+    } else if (page === 'delivery') {
+        deliverySec.style.display = "block";
+    } else if (page === 'contact') {
+        contactSec.style.display = "block";
+    }
+}
 
-{name:"Denim Jacket", image:"images/jacket_denim.jpg", category:"Jackets", type:"Men", price:4200, stock:7, size:"L"},
-{name:"Winter Jacket", image:"images/jacket_winter.jpg", category:"Jackets", type:"Women", price:6000, stock:6, size:"M"},
+function openModal(id){
+    const item = products.find(p => p.id === id);
+    document.getElementById("itemModal").style.display = "flex";
+    document.getElementById("modalMainImage").src = item.images[0];
+    document.getElementById("modalTitle").innerText = item.name;
+    document.getElementById("modalStars").innerText = '★'.repeat(item.rating) + '☆'.repeat(5 - item.rating);
+    document.getElementById("modalPriceText").innerText = item.price;
+    document.getElementById("modalItemInfo").innerHTML = `
+        <div>Category: <b>${item.category}</b></div>
+        <div>Brand: <b>${item.brand}</b></div>
+        <div>Size: <b>${item.size}</b></div>
+        <div>Department: <b>${item.gender}</b></div>`;
 
-{name:"Tracksuit Set", image:"images/tracksuit_men.jpg", category:"Sportswear", type:"Men", price:5000, stock:8, size:"L"},
-{name:"Gym Set Women", image:"images/gym_women.jpg", category:"Sportswear", type:"Women", price:4500, stock:10, size:"M"},
+    const related = products.filter(p => p.category === item.category && p.id !== item.id);
+    const relatedGrid = document.getElementById("relatedGrid");
+    relatedGrid.innerHTML = "";
+    if(related.length === 0) {
+        relatedGrid.innerHTML = "<p style='font-size:13px; color:#777;'>No other related items found in this collection.</p>";
+    } else {
+        related.forEach(rel => {
+            relatedGrid.innerHTML += `
+            <div class="related-card" onclick="openModal(${rel.id})">
+                <img src="${rel.images[0]}">
+                <div style="font-size:12px; font-weight:bold; margin-top:5px;">${rel.name}</div>
+                <div style="font-size:12px; color:#e11d48;">${rel.price}</div>
+            </div>`;
+        });
+    }
+}
 
-{name:"Floral Dress", image:"images/dress_floral.jpg", category:"Dresses", type:"Women", price:2500, stock:10, size:"M"},
-{name:"Kids Party Dress", image:"images/dress_kids.jpg", category:"Dresses", type:"Kids", price:2000, stock:8, size:"S"},
+function closeModal(id){ document.getElementById(id).style.display = "none"; }
 
-{name:"Men Boxer Pack", image:"images/boxers.jpg", category:"Underwear", type:"Men", price:1200, stock:20, size:"M"},
-{name:"Women Bra Set", image:"images/bra_set.jpg", category:"Underwear", type:"Women", price:1500, stock:18, size:"M"},
+/* Cart & Checkout */
+function addToCart(id) {
+    const item = products.find(p => p.id === id);
+    const existing = cart.find(c => c.id === id);
+    if(existing) { existing.qty += 1; }
+    else { cart.push({ ...item, qty: 1 }); }
+    updateCartUI();
+    alert(`${item.name} added to cart!`);
+}
 
-{name:"Ankle Socks Pack", image:"images/socks_men.jpg", category:"Socks", type:"Men", price:600, stock:40, size:"M"},
-{name:"Kids Socks Set", image:"images/socks_kids.jpg", category:"Socks", type:"Kids", price:500, stock:50, size:"S"},
+function updateCartUI() {
+    document.getElementById("cartCount").innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+    const cartList = document.getElementById("cartItemsList");
+    cartList.innerHTML = "";
+    let total = 0;
+    cart.forEach((item, idx) => {
+        const itemTotal = item.rawPrice * item.qty;
+        total += itemTotal;
+        cartList.innerHTML += `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #eee;">
+            <div>
+                <b>${item.name}</b><br>
+                <small>${item.price} x ${item.qty}</small>
+            </div>
+            <div>
+                <b>KSh ${itemTotal.toLocaleString()}</b>
+                <button onclick="removeFromCart(${idx})" style="background:none; border:none; color:red; margin-left:8px; cursor:pointer;"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>`;
+    });
+    document.getElementById("cartTotalPrice").innerText = `KSh ${total.toLocaleString()}`;
+}
 
-{name:"Leather Belt", image:"images/belt.jpg", category:"Accessories", type:"Men", price:1200, stock:20, size:"M"},
-{name:"Women Handbag", image:"images/handbag.jpg", category:"Accessories", type:"Women", price:2500, stock:15, size:"M"}
-];
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+}
 
+function openCartModal() {
+    updateCartUI();
+    document.getElementById("cartModal").style.display = "flex";
+}
 
+function selectPayment(method) {
+    selectedPaymentMethod = method;
+    document.querySelectorAll('.payment-method-card').forEach(el => el.classList.remove('active'));
+    if(method === 'mpesa') {
+        document.getElementById('payMpesa').classList.add('active');
+        document.getElementById('mpesaFields').style.display = 'block';
+        document.getElementById('cardFields').style.display = 'none';
+    } else if(method === 'card') {
+        document.getElementById('payCard').classList.add('active');
+        document.getElementById('mpesaFields').style.display = 'none';
+        document.getElementById('cardFields').style.display = 'grid';
+    } else {
+        document.getElementById('payCod').classList.add('active');
+        document.getElementById('mpesaFields').style.display = 'none';
+        document.getElementById('cardFields').style.display = 'none';
+    }
+}
 
-let cart = {};
+function processPayment(e) {
+    e.preventDefault();
+    if(cart.length === 0) { alert("Your cart is empty!"); return; }
+    if(selectedPaymentMethod === 'mpesa') {
+        alert("STK Push prompt sent to your mobile phone. Please enter M-Pesa PIN to complete payment.");
+    } else {
+        alert("Order successfully placed!");
+    }
+    cart = [];
+    updateCartUI();
+    closeModal("cartModal");
+}
 
-function display(list = products){
-const grid = document.getElementById("grid");
-grid.innerHTML = "";
-
-list.forEach(p=>{
-grid.innerHTML += `
-<div class="card">
-
-<img src="${p.image}" alt="${p.name}"
-onclick="viewProduct('${p.name}')"
-style="width:100%; height:180px; object-fit:cover; border-radius:10px; cursor:pointer;">
-
-<h3>${p.name}</h3>
-<p>KES ${p.price}</p>
-<p>${p.category} | ${p.size}</p>
-
-<p class="${p.stock > 0 ? 'instock' : 'outstock'}">
-${p.stock > 0 ? 'Available' : 'Out of stock'}
-</p>
-
-<div class="top-icons">
-
-  <button onclick="add('${p.name}')" class="icon-btn">🛒</button>
-
-  <button onclick="toggleLove('${p.name}')" class="icon-btn heart">
-    ${likes[p.name] ? "❤️" : "🤍"}
-  </button>
-
- <a href="https://wa.me/254731858997" target="_blank" style="color:#25D366;">
-    <i class="fab fa-whatsapp"></i>
-  </a>
-  
-  <a href="https://instagram.com" target="_blank" style="color:#E4405F;">
-    <i class="fab fa-instagram"></i>
-  </a>
-
-</div>
-
-</div>
-`;
+/* Admin Logic */
+document.getElementById("mainLogo").addEventListener("click", () => {
+    document.getElementById("adminLoginModal").style.display = "flex";
 });
-}
-let likes = {};
 
-function toggleLove(name){
-  if(likes[name]){
-    delete likes[name];
-  } else {
-    likes[name] = true;
-  }
-  display(products);
-}
+document.getElementById("adminLoginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("adminEmail").value;
+    const pwd = document.getElementById("adminPassword").value;
 
-function viewProduct(name){
-  const p = products.find(x => x.name === name);
-  if(!p) return;
+    if(email === "adminacaciabooks@gmail.com" && pwd === "admin123") {
+        closeModal("adminLoginModal");
+        activateAdminDashboard();
+    } else { 
+        alert("Invalid credentials. Access denied."); 
+    }
+});
 
-  document.getElementById("viewImg").src = p.image;
-  document.getElementById("viewName").textContent = p.name;
-  document.getElementById("viewPrice").textContent = "KES " + p.price;
-  document.getElementById("viewCategory").textContent = p.category + " | " + (p.size || "");
-
-  document.getElementById("viewABV").textContent = "ABV: " + (p.abv || "N/A");
-  document.getElementById("viewCountry").textContent = "Country: " + (p.country || "N/A");
-  document.getElementById("viewBrand").textContent = "Brand: " + (p.brand || "N/A");
-  document.getElementById("viewStock").textContent = "Availability: " + (p.stock || "In Stock");
-  document.getElementById("viewDesc").textContent = p.description || "";
-
-  document.getElementById("viewModal").style.display = "block";
+function activateAdminDashboard() {
+    document.getElementById("publicContainer").style.display = "none";
+    document.getElementById("adminContainer").style.display = "flex";
+    document.getElementById("mainNavbar").innerHTML = `
+        <span style="color:#e11d48; font-weight:bold;"><i class="fa fa-user-shield"></i> Admin Panel</span>
+        <a href="#" onclick="location.reload()" style="background:#e11d48; padding:6px 12px; border-radius:4px; margin-left:10px;"><i class="fa fa-sign-out-alt"></i> Logout</a>`;
+    renderAdminTables();
 }
 
-function closeView(){
-document.getElementById("viewModal").style.display = "none";
+function switchAdminTab(tab) {
+    document.querySelectorAll('.admin-panel-card').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.admin-sidebar-menu li').forEach(el => el.classList.remove('active-admin-tab'));
+    document.getElementById(`panel-${tab}`).style.display = 'block';
+    event.currentTarget.classList.add('active-admin-tab');
 }
-function applyFilters(){
-  const search = document.getElementById("search").value.toLowerCase();
 
-  const checked = [...document.querySelectorAll("input[type=checkbox]:checked")];
+function renderAdminTables() {
+    // Render Invoices Table
+    const invTable = document.getElementById("adminInvoiceTableBody");
+    invTable.innerHTML = "";
+    let grossSales = 0;
 
-  const category = checked
-    .filter(c => !c.dataset.type)
-    .map(c => c.value);
-
-  const size = checked
-    .filter(c => c.dataset.type === "size")
-    .map(c => c.value);
-
-  const price = checked
-    .filter(c => c.dataset.type === "price")
-    .map(c => c.value);
-
-  const filtered = products.filter(p => {
-
-    const matchSearch = p.name.toLowerCase().includes(search);
-
-    const matchCategory = !category.length || category.includes(p.category);
-
-    const matchSize = !size.length || size.includes(p.size);
-
-    const matchPrice = !price.length || price.some(r => {
-
-      if (r === "under500") return p.price < 500;
-      if (r === "500-1000") return p.price >= 500 && p.price <= 1000;
-      if (r === "1000-3000") return p.price >= 1000 && p.price <= 3000;
-      if (r === "3000-5000") return p.price >= 3000 && p.price <= 5000;
-      if (r === "5000-10000") return p.price >= 5000 && p.price <= 10000;
-      if (r === "10000plus") return p.price > 10000;
-
-      return true;
+    invoices.forEach(inv => {
+        if(inv.status === "Paid") grossSales += inv.amount;
+        invTable.innerHTML += `
+        <tr>
+            <td><b>${inv.id}</b></td>
+            <td>${inv.customer}</td>
+            <td>${inv.product}</td>
+            <td>${inv.salesRep}</td>
+            <td>KSh ${inv.amount.toLocaleString()}</td>
+            <td><span class="status-badge ${inv.status === 'Paid' ? 'status-success' : 'status-pending'}">${inv.status}</span></td>
+            <td>
+                <button class="action-btn btn-edit" onclick="editInvoice('${inv.id}')"><i class="fa fa-edit"></i> Edit</button>
+                <button class="action-btn btn-delete" onclick="deleteInvoice('${inv.id}')"><i class="fa fa-trash"></i> Delete</button>
+            </td>
+        </tr>`;
     });
 
-    return (
-      matchSearch &&
-      matchCategory &&
-      matchSize &&
-      matchPrice
-    );
-  });
+    document.getElementById("revenueGrossSales").innerText = "KSh " + grossSales.toLocaleString();
 
-  display(filtered);
+    // Render Products Table
+    const prodTable = document.getElementById("adminProductsTableBody");
+    prodTable.innerHTML = "";
+    products.forEach(p => {
+        prodTable.innerHTML += `<tr><td><b>${p.name}</b></td><td>${p.category}</td><td>${p.price}</td><td><span class="status-badge ${p.inStock ? 'status-success':'status-pending'}">${p.inStock ? 'In Stock':'Out of Stock'}</span></td></tr>`;
+    });
+
+    // Render Employees and Commissions Table
+    const empTable = document.getElementById("adminEmployeesTableBody");
+    const commTable = document.getElementById("adminCommissionTableBody");
+    empTable.innerHTML = ""; commTable.innerHTML = "";
+    let totalComm = 0;
+    
+    employees.forEach(e => {
+        const salesVolume = invoices
+            .filter(i => i.salesRep === e.name && i.status === "Paid")
+            .reduce((sum, i) => sum + i.amount, 0);
+        const commissionEarned = (salesVolume * e.rate) / 100;
+        totalComm += commissionEarned;
+
+        empTable.innerHTML += `<tr><td><b>${e.name}</b></td><td>${e.role}</td><td>${e.rate}%</td></tr>`;
+        commTable.innerHTML += `<tr><td><b>${e.name}</b></td><td>${e.role}</td><td>KSh ${salesVolume.toLocaleString()}</td><td>${e.rate}%</td><td style="color:#137333; font-weight:bold;">KSh ${commissionEarned.toLocaleString()}</td></tr>`;
+    });
+
+    document.getElementById("revenueCommissionsPaid").innerText = "KSh " + totalComm.toLocaleString();
 }
 
-function clearFilters(){
-document.querySelectorAll("input[type=checkbox]").forEach(c=>c.checked=false);
-document.getElementById("search").value = "";
-display(products);
+/* Invoice Operations */
+function openInvoiceModal(invId = null) {
+    const repSelect = document.getElementById("invSalesRep");
+    repSelect.innerHTML = employees.map(e => `<option value="${e.name}">${e.name}</option>`).join("");
+
+    if(invId) {
+        const inv = invoices.find(i => i.id === invId);
+        document.getElementById("invoiceModalTitle").innerText = "Edit Invoice (" + inv.id + ")";
+        document.getElementById("invId").value = inv.id;
+        document.getElementById("invCustomer").value = inv.customer;
+        document.getElementById("invProduct").value = inv.product;
+        document.getElementById("invSalesRep").value = inv.salesRep;
+        document.getElementById("invAmount").value = inv.amount;
+        document.getElementById("invStatus").value = inv.status;
+    } else {
+        document.getElementById("invoiceModalTitle").innerText = "Create Invoice";
+        document.getElementById("invoiceForm").reset();
+        document.getElementById("invId").value = "";
+    }
+    document.getElementById("invoiceModal").style.display = "flex";
 }
 
-function add(name){
-const p = products.find(x => x.name === name);
-if(!p) return;
+function editInvoice(id) { openInvoiceModal(id); }
 
-if(p.stock <= 0){
-alert("Out of stock");
-return;
+function deleteInvoice(id) {
+    if(confirm(`Delete invoice ${id}?`)) {
+        invoices = invoices.filter(i => i.id !== id);
+        renderAdminTables();
+    }
 }
 
-if(!cart[name]){
-cart[name] = {qty:1, price:p.price};
-}else{
-cart[name].qty++;
+document.getElementById("invoiceForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const id = document.getElementById("invId").value;
+    const customer = document.getElementById("invCustomer").value;
+    const product = document.getElementById("invProduct").value;
+    const salesRep = document.getElementById("invSalesRep").value;
+    const amount = parseFloat(document.getElementById("invAmount").value);
+    const status = document.getElementById("invStatus").value;
+
+    if(id) {
+        const index = invoices.findIndex(i => i.id === id);
+        if(index !== -1) { invoices[index] = { id, customer, product, salesRep, amount, status }; }
+    } else {
+        const newId = `INV-${2000 + invoices.length + 1}`;
+        invoices.push({ id: newId, customer, product, salesRep, amount, status });
+    }
+
+    renderAdminTables();
+    closeModal("invoiceModal");
+});
+
+/* Product Operations */
+function openAddProductModal(){ document.getElementById("addProductModal").style.display = "flex"; }
+
+document.getElementById("addProductForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("addProdName").value;
+    const cat = document.getElementById("addProdCat").value;
+    const price = document.getElementById("addProdPrice").value;
+    const brand = document.getElementById("addProdBrand").value || "Generic";
+    const size = document.getElementById("addProdSize").value || "M";
+    const gender = document.getElementById("addProdGender").value;
+    const img = document.getElementById("addProdImage").value || "https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000";
+
+    const newId = products.length + 1;
+    products.push({ id: newId, name, category: cat, brand, size, gender, rating: 5, price: `KSh ${parseInt(price).toLocaleString()}`, rawPrice: parseInt(price), inStock: true, images: [img] });
+    renderProducts(products);
+    renderAdminTables();
+    closeModal("addProductModal");
+});
+
+/* Filters */
+function applyFilters() {
+    const kw = document.getElementById("filterKeyword").value.toLowerCase();
+    const cat = document.getElementById("filterCategory").value;
+    const minPrice = parseFloat(document.getElementById("filterMinPrice").value) || 0;
+    const maxPrice = parseFloat(document.getElementById("filterMaxPrice").value) || Infinity;
+    const brand = document.getElementById("filterBrand").value;
+    const size = document.getElementById("filterSize").value;
+    const gender = document.getElementById("filterGender").value;
+    const inStockOnly = document.getElementById("filterInStockOnly").checked;
+
+    const filtered = products.filter(p => {
+        const matchesKw = p.name.toLowerCase().includes(kw);
+        const matchesCat = cat === "All" || p.category === cat;
+        const matchesPrice = p.rawPrice >= minPrice && p.rawPrice <= maxPrice;
+        const matchesBrand = brand === "All" || p.brand === brand;
+        const matchesSize = size === "All" || p.size === size;
+        const matchesGender = gender === "All" || p.gender === gender;
+        const matchesStock = !inStockOnly || p.inStock;
+
+        return matchesKw && matchesCat && matchesPrice && matchesBrand && matchesSize && matchesGender && matchesStock;
+    });
+
+    renderProducts(filtered);
 }
 
-p.stock--;
-display(products);
+function resetFilters() {
+    document.getElementById("filterKeyword").value = "";
+    document.getElementById("filterCategory").value = "All";
+    document.getElementById("filterMinPrice").value = "";
+    document.getElementById("filterMaxPrice").value = "";
+    document.getElementById("filterBrand").value = "All";
+    document.getElementById("filterSize").value = "All";
+    document.getElementById("filterGender").value = "All";
+    document.getElementById("filterInStockOnly").checked = false;
+    renderProducts(products);
 }
 
-function showCart(){
-const list = document.getElementById("cartList");
-list.innerHTML = "";
-let total = 0;
-
-for(const [name,item] of Object.entries(cart)){
-const sub = item.qty * item.price;
-total += sub;
-list.innerHTML += `<li>${name} x${item.qty} = KES ${sub}</li>`;
+function topSearch() {
+    const val = document.getElementById("topSearchBar").value.toLowerCase();
+    const filtered = products.filter(p => p.name.toLowerCase().includes(val));
+    renderProducts(filtered);
 }
 
-document.getElementById("total").textContent = total;
-document.getElementById("cartModal").style.display = "block";
-}
-
-function closeCart(){
-document.getElementById("cartModal").style.display = "none";
-}
-
-function checkout(){
-let msg = "🛒 Liquor Order:%0A%0A";
-let total = 0;
-
-for(const [name,item] of Object.entries(cart)){
-const sub = item.qty * item.price;
-msg += `${name} x${item.qty} = KES ${sub}%0A`;
-total += sub;
-}
-
-msg += `%0A💰 Total: KES ${total}`;
-
-window.open(`https://wa.me/254731858997?text=${msg}`, "_blank");
-}
-
-function toggleTheme(){
-document.body.classList.toggle("dark");
-}
-
-display(products);
+renderProducts(products);
 </script>
-
 </body>
 </html>
